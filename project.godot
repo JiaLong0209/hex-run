@@ -18,6 +18,9 @@ boot_splash/bg_color=Color(0.0980392, 0.121569, 0.286275, 1)
 boot_splash/image="res://Images/sticker.png"
 config/icon="res://Images/Player.png"
 config/movie_file=""
+config/size/extend_to_title=false
+config/size/borderless=false
+config/size/mode=0
 
 [autoload]
 
