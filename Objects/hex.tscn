@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6y66742p800e"]
+
+[ext_resource type="Script" path="res://Objects/Hex.gd" id="1_jh788"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8iw3"]
+size = Vector2(106, 10)
+
+[node name="Hex" type="StaticBody2D" groups=["Walls"]]
+scale = Vector2(10, 10)
+script = ExtResource("1_jh788")
+metadata/_edit_group_ = true
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(50, 86.6, 100, 0, 50, -86.6, -50, -86.6, -100, 0, -50, 86.6)
+default_color = Color(0.270588, 0.905882, 0.0862745, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -87)
+shape = SubResource("RectangleShape2D_v8iw3")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(-74, -45)
+rotation = 2.0944
+shape = SubResource("RectangleShape2D_v8iw3")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(75, 42)
+rotation = 2.0944
+shape = SubResource("RectangleShape2D_v8iw3")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
+position = Vector2(-76, 42)
+rotation = 4.18879
+shape = SubResource("RectangleShape2D_v8iw3")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="."]
+position = Vector2(75, -44)
+rotation = 1.0472
+shape = SubResource("RectangleShape2D_v8iw3")
+one_way_collision_margin = 0.0
+
+[node name="ScoreBox" type="Area2D" parent="."]
+
+[node name="ScoreCollisionBox" type="CollisionShape2D" parent="ScoreBox"]
+position = Vector2(0, 85.5)
+shape = SubResource("RectangleShape2D_v8iw3")
+one_way_collision_margin = 0.0
+
+[connection signal="body_entered" from="ScoreBox" to="." method="_on_score_box_body_entered"]

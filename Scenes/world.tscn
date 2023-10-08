@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlvsr7yv16gcp"]
+
+[ext_resource type="Texture2D" uid="uid://da20lik5pp8gx" path="res://Images/Player.png" id="1_1xwoi"]
+[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_3w0y2"]
+[ext_resource type="Script" path="res://Scenes/HexSpawner.gd" id="5_hok7o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1a5yw"]
+radius = 25.0
+
+[node name="world" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [-306.0, -282.0, -297.0]
+
+[node name="Player" type="CharacterBody2D" parent="." groups=["Players"]]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_3w0y2")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+scale = Vector2(0.108, 0.108)
+texture = ExtResource("1_1xwoi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_1a5yw")
+
+[node name="HitBox" type="Area2D" parent="Player"]
+
+[node name="HitBoxCollision" type="CollisionShape2D" parent="Player/HitBox"]
+shape = SubResource("CircleShape2D_1a5yw")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="HexSpawner" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.543
+autostart = true
+script = ExtResource("5_hok7o")
+
+[connection signal="body_entered" from="Player/HitBox" to="Player" method="_on_hit_box_body_entered"]
+[connection signal="timeout" from="HexSpawner" to="HexSpawner" method="_on_timeout"]
