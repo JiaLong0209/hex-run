@@ -28,12 +28,14 @@ shape = SubResource("CircleShape2D_1a5yw")
 shape = SubResource("CircleShape2D_1a5yw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_callback = 0
 
 [node name="HexSpawner" type="Timer" parent="."]
 process_callback = 0
-wait_time = 0.543
+wait_time = 1.039
 autostart = true
 script = ExtResource("5_hok7o")
 
 [connection signal="body_entered" from="Player/HitBox" to="Player" method="_on_hit_box_body_entered"]
+[connection signal="timeout" from="HexSpawner" to="Player" method="_on_hex_spawner_timeout"]
 [connection signal="timeout" from="HexSpawner" to="HexSpawner" method="_on_timeout"]

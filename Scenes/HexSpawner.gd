@@ -19,4 +19,7 @@ func spawn():
 
 
 func _on_timeout():
+	if(self.wait_time > 0.4):
+		self.wait_time -= 0.01 * 1.2
+		print(self.wait_time)
 	spawn()

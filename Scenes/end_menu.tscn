@@ -4,69 +4,68 @@
 
 [node name="EndMenu" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -537.0
-offset_top = -339.0
-offset_right = -537.0
-offset_bottom = -339.0
+anchor_left = -0.466
+anchor_top = -0.523
+anchor_right = 0.534
+anchor_bottom = 0.477
+offset_left = -0.167969
+offset_top = -0.0960083
+offset_right = -0.16803
+offset_bottom = -0.0960083
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_04jay")
-
-[node name="Panel" type="Panel" parent="."]
-modulate = Color(1, 1, 1, 0.466667)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -278.0
-offset_top = -454.0
-offset_right = 570.0
-offset_bottom = 398.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -33.0
+anchors_preset = -1
+anchor_left = -0.029
+anchor_right = 0.971
+anchor_bottom = 1.028
+offset_left = 0.408001
 offset_top = 18.0
-offset_right = -33.0
-offset_bottom = 18.0
+offset_right = 0.407959
+offset_bottom = -0.143982
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 15
 
 [node name="RestartButton" type="Button" parent="CenterContainer/VBoxContainer"]
 modulate = Color(1, 0.631373, 0.635294, 1)
 self_modulate = Color(1, 0.215686, 1, 1)
-clip_children = 2
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_hover_color = Color(0.439216, 0.454902, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(0.65098, 0.768627, 1, 1)
 theme_override_constants/icon_max_width = 0
+theme_override_font_sizes/font_size = 25
+toggle_mode = true
 text = "Restart"
 
 [node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
-modulate = Color(1, 0.631373, 0.635294, 1)
+modulate = Color(0.647059, 0.764706, 0.866667, 1)
 self_modulate = Color(1, 0.215686, 1, 1)
-clip_children = 2
+texture_filter = 4
+texture_repeat = 2
 layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 25
+toggle_mode = true
 text = "Back to Menu"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
-modulate = Color(1, 0.631373, 0.635294, 1)
+modulate = Color(0.835294, 0.74902, 0.345098, 1)
 self_modulate = Color(1, 0.215686, 1, 1)
-clip_children = 2
 layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 25
+toggle_mode = true
 text = "Quit"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

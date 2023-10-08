@@ -4,25 +4,18 @@ var my_scale = 10
 var delta_scale = 3
 
 var delta_rotation = PI / 6
-var hexSpawner = preload("res://Scenes/HexSpawner.gd")
-var rotate_direction = 1
+
 func _ready():
-	if(Score.score > 10):
-		rotate_direction = randi_range(-1,1)
-	elif(Score.score > 30):
-		rotate_direction = randi_range(-2,2)
-		
+	pass
 
 func _physics_process(delta):
 	scale = Vector2(my_scale, my_scale)
 	my_scale -= delta_scale * delta
 	
-	if(Score.score > 10):
-		rotation += delta_rotation * delta * (Score.score / 10.0) * rotate_direction
+	if(Score.score > 5):
+		rotation -= delta_rotation * delta * (Score.score / 10.0)
 		if(delta_scale < 12):
-			delta_scale += delta * Score.score / 10.0
-		
-	
+			delta_scale += delta * Score.score / 10.0 * 0.5
 		
 	if(my_scale < 0):
 		queue_free()

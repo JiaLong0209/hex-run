@@ -1,14 +1,14 @@
 extends Control
 
-var score = 0
+var life = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	update_score()
+	update_life()
 
-func update_score():
-	$Label.text = "Score: %s" % [score]
+func update_life():
+	$Label.text = "Life: %s" % [life]
 	
 func reset():
-	score = 0
-	update_score()
+	life = 10
+	update_life()

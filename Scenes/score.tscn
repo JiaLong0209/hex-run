@@ -10,14 +10,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.37396, 1.20413)
+mouse_filter = 2
 script = ExtResource("1_67t0o")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = -328.0
-offset_top = -246.0
-offset_right = -288.0
-offset_bottom = -220.0
-theme_override_font_sizes/font_size = 26
-text = "0
+offset_left = -333.343
+offset_top = -254.956
+offset_right = -225.343
+offset_bottom = -194.956
+theme_override_font_sizes/font_size = 30
+text = "Score: 0
 "
