@@ -12,6 +12,7 @@ grow_vertical = 2
 scale = Vector2(1.37396, 1.20413)
 mouse_filter = 2
 script = ExtResource("1_67t0o")
+spawner = NodePath("")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1

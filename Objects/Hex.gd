@@ -1,5 +1,6 @@
 extends StaticBody2D
 
+
 var my_scale = 10
 var delta_scale = 3
 
@@ -7,6 +8,7 @@ var delta_rotation = PI / 6
 var hexSpawner = preload("res://Scenes/HexSpawner.gd")
 var rotate_direction = 1
 func _ready():
+	print()
 	if(Score.score > 10):
 		rotate_direction = randi_range(-1,1)
 	elif(Score.score > 30):

@@ -1,13 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6y66742p800e"]
+[gd_scene load_steps=3 format=3 uid="uid://do22tenjht7fd"]
 
-[ext_resource type="Script" path="res://Objects/Hex.gd" id="1_jh788"]
+[ext_resource type="Script" path="res://Objects/Hex.gd" id="1_dvgka"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v8iw3"]
 size = Vector2(106, 10)
 
 [node name="Hex" type="StaticBody2D" groups=["Walls"]]
 scale = Vector2(10, 10)
-script = ExtResource("1_jh788")
+script = ExtResource("1_dvgka")
 metadata/_edit_group_ = true
 
 [node name="Line2D" type="Line2D" parent="."]

@@ -1,24 +1,19 @@
 extends CharacterBody2D
 
 
+
 const speed = 600.0
 const JUMP_VELOCITY = -400.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction := Vector2.ZERO
-
-func maxSum(arr, k:int):
-	for i in range(arr.size()):
-		arr[i] = arr.slice(i, k+i).reduce(func(acc,cur): return acc + cur, 0)
-	print(arr.max())
-	
+var move_by_key = true
+var speed_up = 1
 
 func _ready():
-	maxSum([3,5,3,1,1,5,9], 3)
 	pass
 	
 func get_input():
-	var isSpeedUp = 1
 	direction = Vector2.ZERO
 #	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	if Input.is_action_pressed("ui_left"):
@@ -30,18 +25,30 @@ func get_input():
 	if Input.is_action_pressed("ui_down"):
 		direction.y = 1
 	if Input.is_action_pressed("SpeedUp"):
-		isSpeedUp = 1.5
+		speed_up = 1.5
 	if Input.is_action_just_pressed("Dash"):
-		isSpeedUp = 10
+		speed_up = 10
 		
 	direction = direction.normalized()
-	velocity =  direction * speed * isSpeedUp
+	velocity =  direction * speed * speed_up
 	
 	
 
 func _physics_process(delta):
-	get_input()
+	speed_up = 1
+	if(move_by_key):
+		get_input()
+	else:
+		if(Input.is_action_pressed("SpeedUp")):
+			speed_up = 2
+		var player_direction = (get_global_mouse_position() - position)
+		direction = player_direction.normalized()
+		velocity = direction * speed * delta * 100 * speed_up
+		
 	move_and_slide()
+	look_at(get_global_mouse_position())
+	
+	# rotate
 	
 #	if get_last_slide_collision() != null:
 #		var collider = get_last_slide_collision().get_collider()

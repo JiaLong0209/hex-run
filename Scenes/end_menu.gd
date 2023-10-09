@@ -6,7 +6,6 @@ func _ready():
 	
 	var canvas_rid = get_canvas_item()
 #	var z = get_tree().get_nodes_in_group("Walls").size()
-#	print(z)
 	
 	RenderingServer.canvas_item_set_z_index(canvas_rid, 100)
 	

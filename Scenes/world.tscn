@@ -1,14 +1,66 @@
-[gd_scene load_steps=5 format=3 uid="uid://dlvsr7yv16gcp"]
+[gd_scene load_steps=11 format=3 uid="uid://dlvsr7yv16gcp"]
 
 [ext_resource type="Texture2D" uid="uid://da20lik5pp8gx" path="res://Images/Player.png" id="1_1xwoi"]
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_3w0y2"]
+[ext_resource type="Script" path="res://Scenes/world.gd" id="1_dixmv"]
+[ext_resource type="Texture2D" uid="uid://brnu32xn04qkd" path="res://Objects/sticker.png" id="2_slfi8"]
+[ext_resource type="Texture2D" uid="uid://da5yxbtecackq" path="res://Images/brick2.png" id="4_hq3o0"]
+[ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="4_m5omf"]
 [ext_resource type="Script" path="res://Scenes/HexSpawner.gd" id="5_hok7o"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ym1so"]
+resource_name = "walls"
+texture = ExtResource("4_m5omf")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_g3sn0"]
+tile_size = Vector2i(32, 32)
+sources/1 = SubResource("TileSetAtlasSource_ym1so")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1a5yw"]
 radius = 25.0
 
 [node name="world" type="Node2D"]
+script = ExtResource("1_dixmv")
 metadata/_edit_horizontal_guides_ = [-306.0, -282.0, -297.0]
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="HexGround" type="Sprite2D" parent="Ground"]
+modulate = Color(0.631373, 0.545098, 0.572549, 1)
+self_modulate = Color(0.356863, 0.129412, 0.67451, 0.482353)
+show_behind_parent = true
+z_index = -1
+texture_repeat = 3
+scale = Vector2(1.03511, 1.01125)
+texture = ExtResource("4_hq3o0")
+offset = Vector2(31.8808, 8.89988)
+region_enabled = true
+region_rect = Rect2(-728, -528, 2500, 2000)
+
+[node name="Decoration" type="Sprite2D" parent="Ground"]
+modulate = Color(1, 1, 1, 0.568627)
+scale = Vector2(0.786566, 0.768437)
+texture = ExtResource("2_slfi8")
+
+[node name="TileMap" type="TileMap" parent="Ground"]
+visible = false
+z_index = 1
+tile_set = SubResource("TileSet_g3sn0")
+format = 2
+layer_0/tile_data = PackedInt32Array(-393226, 65537, 0, -327690, 65537, 0, -262154, 65537, 0, -196618, 65537, 0, -131082, 65537, 0, -65546, 65537, 0, -10, 65537, 0, 65526, 65537, 0, 131062, 65537, 0, 196598, 65537, 0, 262134, 65537, 0, 327670, 65537, 0, 393206, 65537, 0, 458742, 65537, 0, -393225, 65537, 0, -393224, 65537, 0, -393223, 65537, 0, -393222, 65537, 0, -393221, 65537, 0, -393220, 65537, 0, -393219, 65537, 0, -393218, 65537, 0, -393217, 65537, 0, -458752, 65537, 0, -458751, 65537, 0, -458750, 65537, 0, -458749, 65537, 0, -458748, 65537, 0, -458747, 65537, 0, -458746, 65537, 0, -458745, 65537, 0, -458744, 65537, 0, -393208, 65537, 0, -327672, 65537, 0, -262136, 65537, 0, -196600, 65537, 0, -131064, 65537, 0, -65528, 65537, 0, 8, 65537, 0, 65544, 131073, 0, 131080, 131073, 0, 196616, 131073, 0, 262152, 131073, 0, 327688, 131073, 0, 393224, 65537, 0, 458743, 65537, 0, 458744, 65537, 0, 458745, 65537, 0, 458746, 65537, 0, 458747, 65537, 0, 458748, 131073, 0, 458749, 131073, 0, 458750, 131073, 0, 458751, 196609, 1, 393216, 196609, 1, 393217, 196609, 1, 393218, 196609, 1, 393219, 196609, 1, 393220, 196609, 1, 393221, 196609, 1, 393222, 196609, 1, 393223, 65537, 0)
 
 [node name="Player" type="CharacterBody2D" parent="." groups=["Players"]]
 scale = Vector2(0.75, 0.75)
@@ -27,14 +79,23 @@ shape = SubResource("CircleShape2D_1a5yw")
 [node name="HitBoxCollision" type="CollisionShape2D" parent="Player/HitBox"]
 shape = SubResource("CircleShape2D_1a5yw")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="Player"]
+scale = Vector2(1.33333, 1.33333)
 process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+rotation_smoothing_enabled = true
 
 [node name="HexSpawner" type="Timer" parent="."]
 process_callback = 0
 wait_time = 1.039
 autostart = true
 script = ExtResource("5_hok7o")
+
+[node name="Camera2D2" type="Camera2D" parent="."]
+process_callback = 0
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 
 [connection signal="body_entered" from="Player/HitBox" to="Player" method="_on_hit_box_body_entered"]
 [connection signal="timeout" from="HexSpawner" to="Player" method="_on_hex_spawner_timeout"]
