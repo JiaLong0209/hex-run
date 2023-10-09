@@ -110,6 +110,11 @@ game_restart={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Objects"
+2d_physics/layer_2="2"
+
 [physics]
 
 common/physics_ticks_per_second=120
