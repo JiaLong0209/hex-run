@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-
+signal died
 
 const speed = 600.0
 const JUMP_VELOCITY = -400.0
@@ -9,6 +9,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction := Vector2.ZERO
 var move_by_key = true
 var speed_up = 1
+
 
 func _ready():
 	pass
@@ -25,11 +26,16 @@ func get_input():
 	if Input.is_action_pressed("ui_down"):
 		direction.y = 1
 	if Input.is_action_pressed("SpeedUp"):
+		var tween = create_tween()
+		tween.tween_property($Sprite2D,"scale", Vector2(0.13,0.07), 0.1 )
+		tween.tween_property($Sprite2D,"scale", Vector2(0.1,0.1), 0.05 )
 		speed_up = 1.5
+		
 	if Input.is_action_just_pressed("Dash"):
+		$AnimationPlayer.play("1")
 		speed_up = 10
 		
-	direction = direction.normalized()
+	direction = direction.normalized()    
 	velocity =  direction * speed * speed_up
 	
 	
@@ -73,6 +79,7 @@ func _on_hit_box_body_entered(body):
 		Life.update_life()
 
 		if(Life.life <= 0):
+			died.emit()
 			queue_free()
 			EndMenu.visible = true
 			return

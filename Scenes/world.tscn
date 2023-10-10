@@ -157,8 +157,10 @@ blend_mode = 2
 shadow_enabled = true
 
 [node name="Camera2D2" type="Camera2D" parent="."]
+visible = false
 process_callback = 0
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 
+[connection signal="died" from="Player" to="." method="_on_player_died"]
 [connection signal="timeout" from="HexSpawner" to="HexSpawner" method="_on_timeout"]
