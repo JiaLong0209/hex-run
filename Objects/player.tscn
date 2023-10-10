@@ -1,19 +1,79 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpe5sj2bflr4t"]
+[gd_scene load_steps=7 format=3 uid="uid://bpe5sj2bflr4t"]
 
-[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_4eljs"]
-[ext_resource type="Texture2D" uid="uid://da20lik5pp8gx" path="res://Images/Player.png" id="2_35ack"]
+[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_f4ubo"]
+[ext_resource type="Texture2D" uid="uid://da20lik5pp8gx" path="res://Images/Player.png" id="2_sx7ic"]
+[ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="3_0pcyd"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yyk0t"]
+emission_shape = 1
+emission_sphere_radius = 200.0
+particle_flag_disable_z = true
+spread = 23.58
+flatness = 1.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1000.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_min = -100.0
+scale_max = 2.0
+color = Color(1, 0.486275, 0.996078, 0.780392)
+hue_variation_min = -0.02
+hue_variation_max = 0.06
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1a5yw"]
 radius = 25.0
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_h64y8"]
+polygon = PackedVector2Array(16, -20, -6.66667, 0, 17.3333, 17.3333, 5.33333, 24, -8, 0, 2.66667, -24)
+
+[node name="Player" type="CharacterBody2D" groups=["Players"]]
 scale = Vector2(0.75, 0.75)
-script = ExtResource("1_4eljs")
+script = ExtResource("1_f4ubo")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 scale = Vector2(0.108, 0.108)
-texture = ExtResource("2_35ack")
+emitting = false
+amount = 150
+process_material = SubResource("ParticleProcessMaterial_yyk0t")
+lifetime = 0.5
+one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1a5yw")
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="HitBoxCollision" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_1a5yw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.108, 0.108)
+texture = ExtResource("2_sx7ic")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(1.33333, 1.33333)
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+rotation_smoothing_enabled = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+z_index = 2
+z_as_relative = false
+color = Color(1, 0.247059, 0.243137, 0.603922)
+energy = 5.06
+shadow_enabled = true
+shadow_color = Color(0.721569, 0.113725, 0.635294, 0)
+shadow_filter = 2
+shadow_filter_smooth = 6.5
+texture = ExtResource("3_0pcyd")
+texture_scale = 7.8
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+modulate = Color(0.937255, 0.890196, 0.733333, 1)
+z_index = 2
+occluder = SubResource("OccluderPolygon2D_h64y8")
+
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]

@@ -38,6 +38,7 @@ func _physics_process(delta):
 	speed_up = 1
 	if(move_by_key):
 		get_input()
+		
 	else:
 		if(Input.is_action_pressed("SpeedUp")):
 			speed_up = 2
@@ -45,6 +46,9 @@ func _physics_process(delta):
 		direction = player_direction.normalized()
 		velocity = direction * speed * delta * 100 * speed_up
 		
+	if(velocity):
+		$GPUParticles2D.emitting = true
+	
 	move_and_slide()
 	look_at(get_global_mouse_position())
 	
