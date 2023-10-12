@@ -10,6 +10,7 @@ polygon = PackedVector2Array(-47.1, -81.3, 47.2, -81.5, 94.2, 0.1, 45.2, 84.5, 5
 
 [node name="Hex" type="StaticBody2D" groups=["Walls"]]
 scale = Vector2(10, 10)
+disable_mode = 1
 script = ExtResource("1_dvgka")
 metadata/_edit_group_ = true
 

@@ -27,7 +27,7 @@ func get_input():
 		direction.y = 1
 	if Input.is_action_pressed("SpeedUp"):
 		var tween = create_tween()
-		tween.tween_property($Sprite2D,"scale", Vector2(0.13,0.07), 0.1 )
+		tween.tween_property($Sprite2D,"scale", Vector2(0.13,0.07), 0.05 )
 		tween.tween_property($Sprite2D,"scale", Vector2(0.1,0.1), 0.05 )
 		speed_up = 1.5
 		
@@ -78,7 +78,7 @@ func _on_hit_box_body_entered(body):
 		Life.life -= 1
 		Life.update_life()
 
-		if(Life.life <= 0):
+		if(Life.life <= 0): 
 			died.emit()
 			queue_free()
 			EndMenu.visible = true
