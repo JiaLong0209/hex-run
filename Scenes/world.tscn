@@ -120,9 +120,18 @@ metadata/_edit_horizontal_guides_ = [-306.0, -282.0, -297.0]
 
 [node name="Ground" type="Node2D" parent="."]
 
+[node name="bg" type="Sprite2D" parent="Ground"]
+modulate = Color(0.309804, 0.0666667, 0.286275, 1)
+z_index = -2
+texture_repeat = 2
+position = Vector2(19, -19)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_m5omf")
+region_enabled = true
+region_rect = Rect2(-936, -576, 5000, 4000)
+
 [node name="HexGround" type="Sprite2D" parent="Ground"]
-modulate = Color(0.631373, 0.545098, 0.572549, 1)
-self_modulate = Color(0.356863, 0.129412, 0.67451, 0.482353)
+self_modulate = Color(0.141176, 0.0117647, 0.0117647, 1)
 show_behind_parent = true
 z_index = -1
 texture_repeat = 3
