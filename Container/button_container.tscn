@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjmcdeg8wlj21"]
+
+[ext_resource type="Theme" uid="uid://co5oerppnqpqi" path="res://Styles/button.tres" id="1_mshm2"]
+[ext_resource type="Script" path="res://Container/button_container.gd" id="1_uex1d"]
+
+[node name="ButtonContainer" type="Button"]
+custom_minimum_size = Vector2(120, 50)
+offset_right = 160.0
+offset_bottom = 50.0
+theme = ExtResource("1_mshm2")
+script = ExtResource("1_uex1d")

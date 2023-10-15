@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://e18o51pjw0ph"]
+[gd_scene load_steps=5 format=3 uid="uid://e18o51pjw0ph"]
 
 [ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_8rqkd"]
 [ext_resource type="Texture2D" uid="uid://cst1dfbmkaqnr" path="res://Images/sticker.png" id="1_g0wfr"]
+[ext_resource type="PackedScene" uid="uid://sxylvxltghab" path="res://Scenes/play_button.tscn" id="3_2rwfw"]
+[ext_resource type="PackedScene" uid="uid://e7oq3it5x0qo" path="res://Scenes/quit_button.tscn" id="4_a4sfb"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -31,15 +33,11 @@ theme_override_constants/separation = 20
 layout_mode = 2
 texture = ExtResource("1_g0wfr")
 
-[node name="PlayButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(120, 50)
+[node name="PlayButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("3_2rwfw")]
 layout_mode = 2
-text = "Play"
 
-[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(120, 50)
+[node name="QuitButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_a4sfb")]
 layout_mode = 2
-text = "Quit"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

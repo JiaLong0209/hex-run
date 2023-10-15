@@ -86,7 +86,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["Players"]]
 scale = Vector2(0.75, 0.75)
-safe_margin = 1.0
+safe_margin = 2.0
 script = ExtResource("1_f4ubo")
 metadata/_edit_group_ = true
 

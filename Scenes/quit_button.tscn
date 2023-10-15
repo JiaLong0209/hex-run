@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://e7oq3it5x0qo"]
+
+[ext_resource type="PackedScene" uid="uid://cjmcdeg8wlj21" path="res://Container/button_container.tscn" id="1_r1jgd"]
+
+[node name="ButtonContainer" instance=ExtResource("1_r1jgd")]
+text = "Quit"
