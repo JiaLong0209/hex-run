@@ -3,7 +3,7 @@
 // that they need an Internet connection to run the project if desired.
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
-const CACHE_VERSION = "1697374022|10783482843";
+const CACHE_VERSION = "1697397595|75288057";
 const CACHE_PREFIX = "HexRun-sw-cache-";
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 const OFFLINE_URL = "HexRunWebVer.offline.html";
