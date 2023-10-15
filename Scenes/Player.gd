@@ -2,55 +2,29 @@ extends CharacterBody2D
 
 signal died
 
+@export var move_by_key = true
 const speed = 600.0
 const JUMP_VELOCITY = -400.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction := Vector2.ZERO
-var move_by_key = true
+var prev_direction := Vector2.ZERO
+var active_flashlight = false
 var speed_up = 1
 
 
 func _ready():
+	$PointLight2D.visible = active_flashlight
 	pass
 	
-func get_input():
-	direction = Vector2.ZERO
-#	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	if Input.is_action_pressed("ui_left"):
-		direction.x = -1
-	if Input.is_action_pressed("ui_right"):
-		direction.x = 1
-	if Input.is_action_pressed("ui_up"):
-		direction.y = -1
-	if Input.is_action_pressed("ui_down"):
-		direction.y = 1
-	if Input.is_action_pressed("SpeedUp"):
-		var tween = create_tween()
-		tween.tween_property($Sprite2D,"scale", Vector2(0.13,0.07), 0.05 )
-		tween.tween_property($Sprite2D,"scale", Vector2(0.1,0.1), 0.05 )
-		speed_up = 1.5
-		
-	if Input.is_action_just_pressed("Dash"):
-		$AnimationPlayer.play("1")
-		speed_up = 10
-		
-	direction = direction.normalized()    
-	velocity =  direction * speed * speed_up
-	
-	
-
 func _physics_process(delta):
+	flashlight_handler()
+	$PointLight2D.visible = active_flashlight
 	speed_up = 1
 	if(move_by_key):
-		get_input()
-		
+		get_move_by_key()
 	else:
-		if(Input.is_action_pressed("SpeedUp")):
-			speed_up = 2
-		var player_direction = (get_global_mouse_position() - position)
-		direction = player_direction.normalized()
-		velocity = direction * speed * delta * 100 * speed_up
+		get_move_by_mouse(delta)
 		
 	if(velocity):
 		$GPUParticles2D.emitting = true
@@ -71,6 +45,65 @@ func _physics_process(delta):
 #				queue_free()
 #				print("Die")
 #				return
+
+func play_jump():
+	$AnimationPlayer.play("Jump")
+	pass
+	
+func play_speed_up():
+	var tween = create_tween()
+	tween.tween_property($Sprite2D,"scale", Vector2(0.13,0.07), 0.05 )
+	tween.tween_property($Sprite2D,"scale", Vector2(0.1,0.1), 0.05 )
+	
+func flashlight_handler():
+	if Input.is_action_just_pressed("Flashlight"):
+		active_flashlight = !active_flashlight
+	
+func get_move_by_key():
+	direction = Vector2.ZERO
+#	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
+	if Input.is_action_pressed("ui_left"):
+		direction.x = -1
+	if Input.is_action_pressed("ui_right"):
+		direction.x = 1
+#	if prev_direction.x == 1 and Input.is_action_pressed("ui_left") and Input.is_action_pressed("ui_right"):
+#		direction.x = -1
+		
+	if Input.is_action_pressed("ui_up"):
+		direction.y = -1
+	if Input.is_action_pressed("ui_down"):
+		direction.y = 1
+#	if prev_direction.y == 1 and Input.is_action_pressed("ui_up"):
+#		direction.y = -1
+
+	if Input.is_action_pressed("SpeedUp"):
+		play_speed_up()
+		speed_up = 1.5
+		
+	if Input.is_action_just_pressed("Jump"):
+		play_jump()
+		speed_up = 10
+		
+	prev_direction = direction
+	direction = direction.normalized()    
+	velocity =  direction * speed * speed_up
+	
+func get_move_by_mouse(delta):
+	if(Input.is_action_pressed("SpeedUp")):
+		play_speed_up()
+		speed_up = 1.5
+		
+	if Input.is_action_just_pressed("Jump"):
+		play_jump()
+		speed_up = 10
+		
+	if Input.is_action_pressed("Stop"):
+		speed_up = 0
+		
+	var player_direction = (get_global_mouse_position() - position)
+	direction = player_direction.normalized()
+	velocity = direction * speed * delta * 100 * speed_up
 
 
 func _on_hit_box_body_entered(body):

@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://e18o51pjw0ph"]
+[gd_scene load_steps=7 format=3 uid="uid://e18o51pjw0ph"]
 
 [ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_8rqkd"]
 [ext_resource type="Texture2D" uid="uid://cst1dfbmkaqnr" path="res://Images/sticker.png" id="1_g0wfr"]
 [ext_resource type="PackedScene" uid="uid://sxylvxltghab" path="res://Scenes/play_button.tscn" id="3_2rwfw"]
 [ext_resource type="PackedScene" uid="uid://e7oq3it5x0qo" path="res://Scenes/quit_button.tscn" id="4_a4sfb"]
+[ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="5_cdcfn"]
+[ext_resource type="PackedScene" uid="uid://bpe5sj2bflr4t" path="res://Objects/player.tscn" id="6_wo2mq"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -27,7 +29,7 @@ mouse_filter = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
-theme_override_constants/separation = 20
+theme_override_constants/separation = 30
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -38,6 +40,19 @@ layout_mode = 2
 
 [node name="QuitButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_a4sfb")]
 layout_mode = 2
+
+[node name="Player" parent="." instance=ExtResource("6_wo2mq")]
+position = Vector2(560, 284)
+
+[node name="bg" type="Sprite2D" parent="."]
+modulate = Color(0.309804, 0.0666667, 0.286275, 1)
+z_index = -2
+texture_repeat = 2
+position = Vector2(560, 284)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_cdcfn")
+region_enabled = true
+region_rect = Rect2(-936, -576, 5000, 4000)
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -14,10 +14,6 @@ disable_mode = 1
 script = ExtResource("1_dvgka")
 metadata/_edit_group_ = true
 
-[node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(50, 86.6, 100, 0, 50, -86.6, -50, -86.6, -100, 0, -50, 86.6)
-default_color = Color(0.270588, 0.905882, 0.0862745, 1)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -87)
 shape = SubResource("RectangleShape2D_v8iw3")
@@ -42,6 +38,11 @@ position = Vector2(75, -44)
 rotation = 1.0472
 shape = SubResource("RectangleShape2D_v8iw3")
 one_way_collision_margin = 0.0
+
+[node name="Line2D" type="Line2D" parent="."]
+scale = Vector2(1, 1)
+points = PackedVector2Array(50, 86.6, 100, 0, 50, -86.6, -50, -86.6, -100, 0, -50, 86.6)
+default_color = Color(0.831373, 0.713726, 0.313726, 1)
 
 [node name="ScoreBox" type="Area2D" parent="."]
 

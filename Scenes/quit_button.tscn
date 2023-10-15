@@ -3,4 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://cjmcdeg8wlj21" path="res://Container/button_container.tscn" id="1_r1jgd"]
 
 [node name="ButtonContainer" instance=ExtResource("1_r1jgd")]
+anchors_preset = 0
 text = "Quit"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
