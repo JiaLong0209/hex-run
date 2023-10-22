@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://da5yxbtecackq" path="res://Images/brick2.png" id="4_hq3o0"]
 [ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="4_m5omf"]
 [ext_resource type="PackedScene" uid="uid://dretnxevkiy0o" path="res://Scenes/walls.tscn" id="5_1nbiq"]
-[ext_resource type="Script" path="res://Scenes/HexSpawner.gd" id="5_hok7o"]
 [ext_resource type="PackedScene" uid="uid://bpe5sj2bflr4t" path="res://Objects/player.tscn" id="5_mmal1"]
+[ext_resource type="Script" path="res://Scenes/hex_spawner.gd" id="7_ajpo4"]
 
 [node name="world" type="Node2D"]
 script = ExtResource("1_dixmv")
@@ -48,7 +48,7 @@ texture = ExtResource("2_slfi8")
 process_callback = 0
 wait_time = 1.039
 autostart = true
-script = ExtResource("5_hok7o")
+script = ExtResource("7_ajpo4")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 visible = false

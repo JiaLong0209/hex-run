@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://do22tenjht7fd"]
 
-[ext_resource type="Script" path="res://Objects/Hex.gd" id="1_dvgka"]
+[ext_resource type="Script" path="res://Objects/hex.gd" id="1_xoh66"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v8iw3"]
 size = Vector2(106, 10)
@@ -11,7 +11,7 @@ polygon = PackedVector2Array(-47.1, -81.3, 47.2, -81.5, 94.2, 0.1, 45.2, 84.5, 5
 [node name="Hex" type="StaticBody2D" groups=["Walls"]]
 scale = Vector2(10, 10)
 disable_mode = 1
-script = ExtResource("1_dvgka")
+script = ExtResource("1_xoh66")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

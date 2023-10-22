@@ -1,6 +1,6 @@
 extends Control
 
-@export var play_scene : PackedScene = preload("res://Scenes/world.tscn")
+@export var play_scene := "res://Scenes/world.tscn"
 #@onready var play_button = $CenterContainer/VBoxContainer/PlayButton
 #@onready var quit_button = $CenterContainer/VBoxContainer/QuitButton
 #@onready var arr = [play_button, quit_button]
@@ -16,8 +16,8 @@ func _process(_delta):
 		
 
 func _on_play_button_pressed():
-#	get_tree().change_scene_to_file("res://Scenes/world.tscn")
-	get_tree().change_scene_to_packed(play_scene)
+	TransitionLayer.change_scene(play_scene)
+#	get_tree().change_scene_to_packed(play_scene)
 	Global.reset()
 
 func _on_quit_button_pressed():

@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-var green := Color('07b70b')
+var green := Color('55f059')
 var red := Color(0.9, 0, 0, 1)
 var yellow := Color('fff377')
 var blue := Color('2551f5')
@@ -27,7 +27,7 @@ func update_player_health_text(tw):
 		var new_sprite = health_sprite.instantiate()
 		health_container.add_child(new_sprite)
 		
-	health_bar.value = Global.player_health
+	tw.tween_property(health_bar, "value", Global.player_health, transition / 2.0)
 	
 	if(Global.player_health <= 3):
 		tw.tween_property(health_container, "modulate", red, transition)

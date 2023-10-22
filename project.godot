@@ -27,6 +27,7 @@ config/size/mode=0
 EndMenu="*res://Scenes/end_menu.tscn"
 Global="*res://Global/global.gd"
 UI="*res://UI/ui.tscn"
+TransitionLayer="*res://Global/transition_layer.tscn"
 
 [display]
 

@@ -11,14 +11,16 @@ func _ready():
 
 
 func _on_restart_button_pressed():
-	visible = false
 	Global.reset()
-	get_tree().reload_current_scene()
+	TransitionLayer.reload()
+	TransitionLayer.await_time(10)
+	visible = false
 
 func _on_back_button_pressed():
-	visible = false
 	Global.reset()
-	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
+	TransitionLayer.change_scene("res://Scenes/main_menu.tscn")
+	TransitionLayer.await_time(10)
+	visible = false
 
 func _on_quit_button_pressed():
 	get_tree().quit()
