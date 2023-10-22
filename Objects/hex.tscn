@@ -40,7 +40,6 @@ shape = SubResource("RectangleShape2D_v8iw3")
 one_way_collision_margin = 0.0
 
 [node name="Line2D" type="Line2D" parent="."]
-scale = Vector2(1, 1)
 points = PackedVector2Array(50, 86.6, 100, 0, 50, -86.6, -50, -86.6, -100, 0, -50, 86.6)
 default_color = Color(0.831373, 0.713726, 0.313726, 1)
 

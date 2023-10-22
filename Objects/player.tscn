@@ -27,6 +27,23 @@ radius = 25.0
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_h64y8"]
 polygon = PackedVector2Array(16, -20, -6.66667, 0, 17.3333, 17.3333, 5.33333, 24, -8, 0, 2.66667, -24)
 
+[sub_resource type="Animation" id="Animation_o1v0j"]
+resource_name = "Jump"
+length = 0.333337
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.166667, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.01, 0.01), Vector2(0.15, 0.15), Vector2(0.1, 0.1)]
+}
+
 [sub_resource type="Animation" id="Animation_o60bl"]
 length = 0.0166683
 step = 0.0166667
@@ -58,23 +75,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1.07177, 1),
 "update": 0,
 "values": [Vector2(0.15, 0.02), Vector2(0.1, 0.1)]
-}
-
-[sub_resource type="Animation" id="Animation_o1v0j"]
-resource_name = "Jump"
-length = 0.333337
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0333333, 0.166667, 0.266667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0.01, 0.01), Vector2(0.15, 0.15), Vector2(0.1, 0.1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xmgcm"]
