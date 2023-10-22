@@ -13,13 +13,11 @@ func _ready():
 func _on_restart_button_pressed():
 	Global.reset()
 	TransitionLayer.reload()
-	TransitionLayer.await_time(10)
 	visible = false
 
 func _on_back_button_pressed():
 	Global.reset()
 	TransitionLayer.change_scene("res://Scenes/main_menu.tscn")
-	TransitionLayer.await_time(10)
 	visible = false
 
 func _on_quit_button_pressed():

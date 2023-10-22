@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 func _onready():
-	$AnimationPlayer.speed_scale = 1.5
+	pass
 
 func change_scene(path : NodePath):
 	$AnimationPlayer.play('to_black')
@@ -15,5 +15,3 @@ func reload():
 	get_tree().reload_current_scene()
 	$AnimationPlayer.play_backwards("to_black")
 	
-func await_time(time: float):
-	await get_tree().create_timer(time).timeout
