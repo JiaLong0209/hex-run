@@ -83,7 +83,7 @@ func get_move_by_key():
 		
 	if Input.is_action_just_pressed("Jump"):
 		play_jump()
-		speed_up = 10
+		speed_up = 15
 		
 	prev_direction = direction
 	direction = direction.normalized()    
@@ -108,14 +108,12 @@ func get_move_by_mouse(delta):
 
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("Walls"):
-		Life.life -= 1
-		Life.update_life()
+		Global.player_health -= 1
+		UI.update()
 
-		if(Life.life <= 0): 
+		if(Global.player_health <= 0): 
 			died.emit()
 			queue_free()
 			EndMenu.visible = true
 			return
 
-func _on_hex_spawner_timeout():
-	pass # Replace with function body.

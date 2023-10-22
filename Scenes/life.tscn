@@ -1,8 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://dgbcgp0ax0jft"]
+[gd_scene load_steps=2 format=3 uid="uid://daqn7dn5jdj62"]
 
-[ext_resource type="Script" path="res://Scenes/life.gd" id="1_jejae"]
+[sub_resource type="GDScript" id="GDScript_66aoh"]
+script/source = "extends Control
+
+var life = 10
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	update_life()
+
+func update_life():
+	$Label.text = \"Life: %s\" % [life]
+	
+func reset():
+	life = 10
+	update_life()
+"
 
 [node name="Life" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +30,7 @@ offset_bottom = -196.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_jejae")
+script = SubResource("GDScript_66aoh")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1

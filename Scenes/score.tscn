@@ -1,8 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://c41gfy0c3kwi4"]
+[gd_scene load_steps=2 format=3 uid="uid://cnjyvmv3b8gug"]
 
-[ext_resource type="Script" path="res://Scenes/score.gd" id="1_67t0o"]
+[sub_resource type="GDScript" id="GDScript_ovyra"]
+script/source = "extends Control
+
+@export var spawner : Timer
+var score = 0
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	update_score()
+
+func update_score():
+	$Label.text = \"Score: %s\" % [score]
+	
+func reset():
+	score = 0
+	update_score()
+"
 
 [node name="Score" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.37396, 1.20413)
 mouse_filter = 2
-script = ExtResource("1_67t0o")
+script = SubResource("GDScript_ovyra")
 spawner = NodePath("")
 
 [node name="Label" type="Label" parent="."]

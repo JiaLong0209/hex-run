@@ -8,18 +8,16 @@ func _ready():
 #	var z = get_tree().get_nodes_in_group("Walls").size()
 	
 	RenderingServer.canvas_item_set_z_index(canvas_rid, 100)
-	
-
 
 
 func _on_restart_button_pressed():
 	visible = false
+	Global.reset()
 	get_tree().reload_current_scene()
-	Score.reset()
-	Life.reset()
 
 func _on_back_button_pressed():
 	visible = false
+	Global.reset()
 	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
 
 func _on_quit_button_pressed():

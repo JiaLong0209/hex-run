@@ -25,9 +25,8 @@ config/size/mode=0
 [autoload]
 
 EndMenu="*res://Scenes/end_menu.tscn"
-Score="*res://Scenes/score.tscn"
-Life="*res://Scenes/life.tscn"
-Global="*res://Scenes/global.gd"
+Global="*res://Global/global.gd"
+UI="*res://UI/ui.tscn"
 
 [display]
 

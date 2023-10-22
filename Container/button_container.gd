@@ -12,11 +12,10 @@ var is_player_enter := false
 
 
 func _ready():
-	print(collision_shape, self)
 	pass # Replace with function body.
 	
 	
-func _process(delta):
+func _process(_delta):
 	collision_offset = normal_size / 2
 	var tw = create_tween()
 	tw.set_parallel()

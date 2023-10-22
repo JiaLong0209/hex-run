@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5w6dsiq8weh"]
+
+[ext_resource type="Texture2D" uid="uid://da5yxbtecackq" path="res://Images/brick2.png" id="1_tulok"]
+
+[node name="HealthSprite" type="TextureRect" groups=["HealthSprites"]]
+modulate = Color(1, 1, 1, 0.905882)
+texture = ExtResource("1_tulok")
+expand_mode = 2
