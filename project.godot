@@ -47,6 +47,10 @@ script/stdout/print_fps=true
 script/max_fps=120
 script/fps=120
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_vim/plugin.cfg")
+
 [input]
 
 ui_left={

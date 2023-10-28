@@ -109,7 +109,6 @@ func get_move_by_mouse(delta):
 func _on_hit_box_body_entered(body):
 	if body.is_in_group("Walls"):
 		Global.player_health -= 1
-		UI.update()
 
 		if(Global.player_health <= 0): 
 			died.emit()

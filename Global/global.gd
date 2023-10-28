@@ -1,7 +1,17 @@
 extends Node
 
-var player_health := 10
-var score := 0
+signal stat_change
+
+var player_health := 10 :
+	set(value):
+		player_health = value
+		stat_change.emit()	
+
+var score := 0:
+	set(value):
+		score = value
+		stat_change.emit()	
+
 
 func maxSum(arr, k:int):
 	for i in range(arr.size()):
@@ -13,7 +23,7 @@ func _ready():
 	maxSum([3,5,3,1,1,5,9], 3)
 	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(_delta):
 	if Input.is_action_just_pressed("game_end"):
 		get_tree().quit()
@@ -21,9 +31,9 @@ func _process(_delta):
 	if Input.is_action_just_pressed("game_restart"):
 		get_tree().change_scene_to_file("res://Scenes/world.tscn")
 		Global.reset() 
-
 		print('restart')
 		
+
 func reset():
 	player_health = 10
 	score = 0

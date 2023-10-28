@@ -14,4 +14,4 @@ func reload():
 	await $AnimationPlayer.animation_finished
 	get_tree().reload_current_scene()
 	$AnimationPlayer.play_backwards("to_black")
-	
+		

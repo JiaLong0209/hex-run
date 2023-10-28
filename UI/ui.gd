@@ -15,6 +15,7 @@ var transition := 0.4
 @onready var score_container := $UIContainer/VBoxContainer/ScoreContainer
 
 func _ready():
+	Global.connect("stat_change", update)
 	update()
 
 
