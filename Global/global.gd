@@ -22,7 +22,7 @@ func maxSum(arr, k:int):
 func _ready():
 	maxSum([3,5,3,1,1,5,9], 3)
 	pass
-
+	
 
 func _process(_delta):
 	if Input.is_action_just_pressed("game_end"):
