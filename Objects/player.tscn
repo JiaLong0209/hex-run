@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bpe5sj2bflr4t"]
+[gd_scene load_steps=13 format=3 uid="uid://bpe5sj2bflr4t"]
 
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_f4ubo"]
 [ext_resource type="Texture2D" uid="uid://da20lik5pp8gx" path="res://Images/Player.png" id="2_sx7ic"]
 [ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="3_0pcyd"]
+[ext_resource type="Shader" path="res://Objects/player.gdshader" id="3_k0hr0"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yyk0t"]
 emission_shape = 1
@@ -25,6 +26,11 @@ radius = 25.0
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_h64y8"]
 polygon = PackedVector2Array(16, -20, -6.66667, 0, 17.3333, 17.3333, 5.33333, 24, -8, 0, 2.66667, -24)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_klj6w"]
+shader = ExtResource("3_k0hr0")
+shader_parameter/color = Color(0.996078, 0.819608, 0.819608, 1)
+shader_parameter/progress = 0.0
 
 [sub_resource type="Animation" id="Animation_o1v0j"]
 resource_name = "Jump"
@@ -107,10 +113,6 @@ shape = SubResource("CircleShape2D_1a5yw")
 [node name="HitBoxCollision" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CircleShape2D_1a5yw")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_sx7ic")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(1.33333, 1.33333)
 process_callback = 0
@@ -134,6 +136,11 @@ texture_scale = 11.32
 modulate = Color(0.937255, 0.890196, 0.733333, 1)
 z_index = 2
 occluder = SubResource("OccluderPolygon2D_h64y8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_klj6w")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_sx7ic")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "speedUp"

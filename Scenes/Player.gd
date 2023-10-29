@@ -11,7 +11,8 @@ var direction := Vector2.ZERO
 var prev_direction := Vector2.ZERO
 var active_flashlight = false
 var speed_up = 1
-
+var player_vulnerable = true
+var player_invulnerable_time = 0.2
 
 func _ready():
 	$PointLight2D.visible = active_flashlight
@@ -88,7 +89,7 @@ func get_move_by_key():
 	prev_direction = direction
 	direction = direction.normalized()    
 	velocity =  direction * speed * speed_up
-	
+
 func get_move_by_mouse(delta):
 	if(Input.is_action_pressed("SpeedUp")):
 		play_speed_up()
@@ -107,12 +108,17 @@ func get_move_by_mouse(delta):
 
 
 func _on_hit_box_body_entered(body):
-	if body.is_in_group("Walls"):
+	if body.is_in_group("Walls") and player_vulnerable:
 		Global.player_health -= 1
-
+		
 		if(Global.player_health <= 0): 
 			died.emit()
 			queue_free()
 			EndMenu.visible = true
 			return
-
+			
+		$Sprite2D.material.set("shader_parameter/progress", 0.5)
+		player_vulnerable = false
+		await get_tree().create_timer(player_invulnerable_time).timeout
+		$Sprite2D.material.set("shader_parameter/progress", 0)
+		player_vulnerable = true
