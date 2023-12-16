@@ -2,27 +2,29 @@ extends CharacterBody2D
 
 signal died
 
-@export var move_by_key = true
 const speed = 600.0
 const JUMP_VELOCITY = -400.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction := Vector2.ZERO
+var pre_direction := Vector2.ZERO
 var prev_direction := Vector2.ZERO
 var active_flashlight = false
 var speed_up = 1
+var jump_speed = 15
 var player_vulnerable = true
 var player_invulnerable_time = 0.2
 
+@onready var player_sprite = $Sprite2D
+
 func _ready():
 	$PointLight2D.visible = active_flashlight
-	pass
 	
 func _physics_process(delta):
 	flashlight_handler()
 	$PointLight2D.visible = active_flashlight
 	speed_up = 1
-	if(move_by_key):
+	if(!Global.move_mode):
 		get_move_by_key()
 	else:
 		get_move_by_mouse(delta)
@@ -31,7 +33,16 @@ func _physics_process(delta):
 		$GPUParticles2D.emitting = true
 	
 	move_and_slide()
-	look_at(get_global_mouse_position())
+	if(direction != Vector2.ZERO):
+		pre_direction = direction
+		print(prev_direction)
+	
+	if(Global.move_mode == Global.MoveType.MOUSE):
+		rotate_by_position(get_global_mouse_position())
+		#look_at(get_global_mouse_position())
+	elif(Global.move_mode == Global.MoveType.KEYBOARD):
+		rotate_by_position(velocity + position)
+		#look_at(velocity + position)
 	
 	# rotate
 	
@@ -47,9 +58,29 @@ func _physics_process(delta):
 #				print("Die")
 #				return
 
+func rotate_by_position(p_position: Vector2):
+	var temp_direction = p_position - position
+	if(temp_direction == Vector2.ZERO):
+		temp_direction = pre_direction
+	
+	temp_direction = temp_direction.normalized()
+	var c = acos(temp_direction.x)
+	var s = asin(temp_direction.y)
+	var deg 
+	if s < 0:
+		deg = s
+		if c >= PI * 3/5:
+			deg = -deg 
+			player_sprite.flip_h = false
+			player_sprite.flip_v = false
+	else:
+		deg = c
+	
+	var tw = get_tree().create_tween()
+	tw.tween_property(player_sprite,"rotation" , deg, 0.2)
+
 func play_jump():
 	$AnimationPlayer.play("Jump")
-	pass
 	
 func play_speed_up():
 	var tween = create_tween()
@@ -65,8 +96,13 @@ func get_move_by_key():
 #	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
 	if Input.is_action_pressed("ui_left"):
+		player_sprite.flip_h = true
+		player_sprite.flip_v = true
 		direction.x = -1
 	if Input.is_action_pressed("ui_right"):
+		player_sprite.flip_h = true
+		player_sprite.flip_v = false
+		#player_sprite.scale.x = -0.1
 		direction.x = 1
 #	if prev_direction.x == 1 and Input.is_action_pressed("ui_left") and Input.is_action_pressed("ui_right"):
 #		direction.x = -1
@@ -84,10 +120,11 @@ func get_move_by_key():
 		
 	if Input.is_action_just_pressed("Jump"):
 		play_jump()
-		speed_up = 15
+		speed_up = jump_speed
 		
 	prev_direction = direction
 	direction = direction.normalized()    
+	
 	velocity =  direction * speed * speed_up
 
 func get_move_by_mouse(delta):
@@ -97,14 +134,14 @@ func get_move_by_mouse(delta):
 		
 	if Input.is_action_just_pressed("Jump"):
 		play_jump()
-		speed_up = 10
+		speed_up = jump_speed
 		
 	if Input.is_action_pressed("Stop"):
 		speed_up = 0
 		
 	var player_direction = (get_global_mouse_position() - position)
 	direction = player_direction.normalized()
-	velocity = direction * speed * delta * 100 * speed_up
+	velocity = direction * speed * delta * 120 * speed_up
 
 
 func _on_hit_box_body_entered(body):

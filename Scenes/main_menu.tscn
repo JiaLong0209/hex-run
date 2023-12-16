@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://e18o51pjw0ph"]
+[gd_scene load_steps=9 format=3 uid="uid://e18o51pjw0ph"]
 
 [ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_8rqkd"]
 [ext_resource type="Texture2D" uid="uid://cst1dfbmkaqnr" path="res://Images/sticker.png" id="1_g0wfr"]
+[ext_resource type="Theme" uid="uid://dhs3pbm357mtn" path="res://UI/main_theme.tres" id="2_0mx44"]
 [ext_resource type="PackedScene" uid="uid://sxylvxltghab" path="res://Scenes/play_button.tscn" id="3_2rwfw"]
 [ext_resource type="PackedScene" uid="uid://e7oq3it5x0qo" path="res://Scenes/quit_button.tscn" id="4_a4sfb"]
 [ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="5_cdcfn"]
@@ -18,33 +19,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_8rqkd")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-size_flags_stretch_ratio = 0.0
-theme_override_constants/separation = 30
-
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-texture = ExtResource("1_g0wfr")
-
-[node name="PlayButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("3_2rwfw")]
-layout_mode = 2
-
-[node name="QuitButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("4_a4sfb")]
-layout_mode = 2
-
-[node name="Player" parent="." instance=ExtResource("6_wo2mq")]
-position = Vector2(560, 284)
-
 [node name="bg" type="Sprite2D" parent="."]
 modulate = Color(0.309804, 0.0666667, 0.286275, 1)
 z_index = -2
@@ -56,7 +30,49 @@ region_enabled = true
 region_rect = Rect2(-936, -576, 8000, 6000)
 
 [node name="TileMap" parent="." instance=ExtResource("7_c7ney")]
-position = Vector2(600, 250)
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[node name="Player" parent="." instance=ExtResource("6_wo2mq")]
+z_index = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+use_top_left = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 30
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_g0wfr")
+stretch_mode = 4
+
+[node name="PlayButton" parent="CenterContainer/HBoxContainer/VBoxContainer" instance=ExtResource("3_2rwfw")]
+layout_mode = 2
+
+[node name="QuitButton" parent="CenterContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_a4sfb")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_0mx44")
+text = "Shift = Speed up 
+Space = Jump 
+E = Flashlight
+G = Change move mode"
+
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

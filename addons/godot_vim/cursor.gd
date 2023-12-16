@@ -27,73 +27,82 @@ func _ready():
 	code_edit.connect("caret_changed", cursor_changed)
 	call_deferred('set_mode', Mode.NORMAL)
 
-func cursor_changed():
+
+func cursor_changed() -> void:
 	draw_cursor()
 
-func focus_entered():
+func focus_entered() -> void:
 	if mode == Mode.NORMAL:
 		code_edit.release_focus()
 		self.grab_focus()
 
 
-func reset_normal():
-	code_edit.cancel_code_completion()
+func reset_normal() -> void:
 	input_stream = ''
 	set_mode(Mode.NORMAL)
 	selection_from = Vector2i.ZERO
 	selection_to = Vector2i.ZERO
 	set_column(code_edit.get_caret_column())
-	return
 
-
-func back_to_normal_mode(event, m):
+func back_to_normal_mode(event, m) -> int:
 	var old_caret_pos = code_edit.get_caret_column()
 	if Input.is_key_pressed(KEY_ESCAPE):
 		if m == Mode.INSERT:
 			handle_input_stream('l')
 		reset_normal()	
+		code_edit.cancel_code_completion()
 		return 1
 	if m == Mode.INSERT:
 			var old_time = Time.get_ticks_msec()
-			if Input.is_key_label_pressed(KEY_J):
-				old_caret_pos = code_edit.get_caret_column()
-				if Time.get_ticks_msec() - old_time < 700 and Input.is_key_label_pressed(KEY_K):
-					code_edit.backspace()
-					code_edit.cancel_code_completion()
-					reset_normal()	
-					handle_input_stream('l')
-					return 1
+			if Input.is_key_label_pressed(KEY_TAB):
+				pass
 	return 0
 
 	
-func _input(event):
+func _input(event) -> void:
 	if back_to_normal_mode(event, mode):	return
 	draw_cursor()
-	code_edit.cancel_code_completion()
 	if !has_focus():	return
 	if !event is InputEventKey:	return
 	if !event.pressed:	return
 	if mode == Mode.INSERT or mode == Mode.COMMAND:	return
-
+	if mode == Mode.NORMAL: 
+		code_edit.cancel_code_completion()
 	if event.keycode == KEY_ESCAPE:
 		input_stream = ''
 		return
 	
-
 	var ch: String
 	if !event is InputEventMouseMotion and !event is InputEventMouseButton:
 		ch = char(event.unicode)
 
 	if Input.is_key_pressed(KEY_ENTER):
 		ch = '<CR>'
+	
 	if Input.is_key_pressed(KEY_TAB):
 		ch = '<TAB>'
-	if Input.is_key_pressed(KEY_CTRL):
+		
+	if Input.is_key_pressed(KEY_CTRL) and Input.is_key_pressed(KEY_ALT):
+		if OS.is_keycode_unicode(event.keycode):
+			var c: String = char(event.keycode)
+			if !Input.is_key_pressed(KEY_SHIFT):
+				c = c.to_lower()
+			ch = '<CA-%s>' % c
+		
+	if Input.is_key_pressed(KEY_CTRL) and !Input.is_key_pressed(KEY_ALT):
 		if OS.is_keycode_unicode(event.keycode):
 			var c: String = char(event.keycode)
 			if !Input.is_key_pressed(KEY_SHIFT):
 				c = c.to_lower()
 			ch = '<C-%s>' % c
+	
+	if Input.is_key_pressed(KEY_ALT) and !Input.is_key_pressed(KEY_CTRL):
+		if OS.is_keycode_unicode(event.keycode):
+			var c: String = char(event.keycode)
+			if !Input.is_key_pressed(KEY_SHIFT):
+				c = c.to_lower()
+			ch = '<A-%s>' % c
+	
 	
 	input_stream += ch
 	status_bar.display_text(input_stream)
@@ -174,19 +183,40 @@ func handle_input_stream(stream: String) -> String:
 		code_edit.end_complex_operation()
 		globals.last_command = stream
 		return ''
+	
 	if stream.begins_with('d'):
-		if is_mode_visual(mode):
+		if mode == Mode.VISUAL:
 			DisplayServer.clipboard_set( '\r' + code_edit.get_selected_text() )
 			code_edit.delete_selection()
-			move_line(+1)
 			set_mode(Mode.NORMAL)
 			return ''
-		
-		if stream.begins_with('dd') and mode == Mode.NORMAL:
-			code_edit.select( get_line()-1, get_line_length(get_line()-1), get_line(), get_line_length() )
+			
+		if mode == Mode.VISUAL_LINE:
+			var ind: int = code_edit.get_first_non_whitespace_column(get_line())
+			if selection_from.y > selection_to.y:
+				var t = selection_from.y
+				selection_from.y = selection_to.y
+				selection_to.y = t
+				
+			code_edit.select( selection_from.y , 0, selection_to.y +1, 0)
 			DisplayServer.clipboard_set( '\r' + code_edit.get_selected_text() )
 			code_edit.delete_selection()
-			move_line(+1)
+			set_mode(Mode.NORMAL)
+			move_column(ind)
+			return ''
+
+		if stream.begins_with('dd') and mode == Mode.NORMAL:
+			var ind: int = code_edit.get_first_non_whitespace_column(get_line())
+			if get_line() != code_edit.get_line_count()-1:
+				code_edit.select( get_line(), 0, get_line()+1, 0)
+				DisplayServer.clipboard_set( '\r' + code_edit.get_selected_text() )
+				code_edit.delete_selection()
+				move_column(ind)
+			else:
+				code_edit.select( get_line()-1, get_line_length(get_line()-1), get_line(), get_line_length(get_line()) )
+				DisplayServer.clipboard_set( '\r' + code_edit.get_selected_text() )
+				code_edit.delete_selection()
+				
 			globals.last_command = stream
 			return ''
 		
@@ -204,33 +234,29 @@ func handle_input_stream(stream: String) -> String:
 		code_edit.cut()
 		globals.last_command = stream
 		return ''
+	
 	if stream.begins_with('p'):
-		code_edit.begin_complex_operation()
-		if is_mode_visual(mode):
-			code_edit.delete_selection()
-		if DisplayServer.clipboard_get().begins_with('\r\n'):
-			set_column(get_line_length())
-		else:
-			move_column(+1)
-		code_edit.deselect()
-		code_edit.paste()
-		move_column(-1)
-		code_edit.end_complex_operation()
-		set_mode(Mode.NORMAL)
+		paste_forward()
 		globals.last_command = stream
 		return ''
+	
 	if stream.begins_with('P'):
-		status_bar.display_error("Unimplemented command: P")
+		paste_backward()
+		globals.last_command = stream
 		return ''
+	
 	if stream.begins_with('$'):
 		set_column(get_line_length())
 		return ''
+	
 	if stream.begins_with('^'):
 		set_column( code_edit.get_first_non_whitespace_column(get_line()) )
 		return ''
+	
 	if stream == 'G':
 		set_line(code_edit.get_line_count())
 		return ''
+	
 	if stream.begins_with('g'):
 		if stream.begins_with('gg'):
 			set_line(0)
@@ -255,24 +281,30 @@ func handle_input_stream(stream: String) -> String:
 	if stream == 'i' and mode == Mode.NORMAL:
 		set_mode(Mode.INSERT)
 		return ''
+
 	if stream == 'a' and mode == Mode.NORMAL:
 		set_mode(Mode.INSERT)
 		move_column(+1)
 		return ''
+	
 	if stream == 'I' and mode == Mode.NORMAL:
 		set_column(code_edit.get_first_non_whitespace_column(get_line()))
 		set_mode(Mode.INSERT)
 		return ''
+	
 	if stream.begins_with('A') and mode == Mode.NORMAL:
 		set_mode(Mode.INSERT)
 		set_column(get_line_length())
 		return ''
+	
 	if stream == 'v':
 		set_mode(Mode.VISUAL)
 		return ''
+	
 	if stream == 'V':
 		set_mode(Mode.VISUAL_LINE)
 		return ''
+	
 	if stream.begins_with('o'):
 		if is_mode_visual(mode):
 			var tmp: Vector2i = selection_from
@@ -290,6 +322,7 @@ func handle_input_stream(stream: String) -> String:
 		set_mode(Mode.INSERT)
 		globals.last_command = stream
 		return ''
+	
 	if stream.begins_with('O') and mode == Mode.NORMAL:
 		var ind: int = code_edit.get_first_non_whitespace_column(get_line())
 		code_edit.insert_line_at(get_line(), "\t".repeat(ind))
@@ -298,7 +331,7 @@ func handle_input_stream(stream: String) -> String:
 		set_mode(Mode.INSERT)
 		globals.last_command = stream
 		return ''
-	
+
 	if stream == 'x':
 		code_edit.copy()
 		code_edit.delete_selection()
@@ -308,13 +341,69 @@ func handle_input_stream(stream: String) -> String:
 		code_edit.cut()
 		set_mode(Mode.INSERT)
 		return ''
+	
 	if stream == 'u':
 		code_edit.undo()
+		move_column(-1)
 		set_mode(Mode.NORMAL)
+		
 		return ''
 	if stream.begins_with('<C-r>'):
-		code_edit.redo()
+		#code_edit.redo()
+		set_mode(Mode.VISUAL)
 		return ''
+	
+	if stream.begins_with('<C-f>'):
+		 #Avoid normal mode	
+		if(! is_mode_visual(mode)):
+			set_mode(Mode.VISUAL) 
+		return ''	
+	
+	if stream.begins_with('<C-C'):
+		code_edit.copy()
+		set_mode(Mode.NORMAL)
+		return ''
+	
+	if stream.begins_with('<C-V>'):
+		paste_forward()
+		return ''
+		
+	if stream.begins_with('<C-v>'):
+		return ''
+			
+	if stream.begins_with('<A-j>'):
+		if(is_mode_visual(mode)):
+			swap_multi_lines(selection_from.y, selection_to.y, 1)
+		else:
+			swap_line(get_line(), 1)
+		return ''
+	
+	if stream.begins_with('<A-k>'):
+		if(is_mode_visual(mode)):
+			swap_multi_lines(selection_from.y, selection_to.y, -1)
+		else:
+			swap_line(get_line(), -1)
+		return ''	
+	
+	if stream.begins_with('<A-,>'):
+		if is_mode_visual(mode):
+			code_edit.unindent_lines()
+		if mode == Mode.NORMAL:
+			code_edit.unindent_lines()
+			globals.last_command = stream
+		return ''
+
+	if stream.begins_with('<A-.>'):
+		if is_mode_visual(mode):
+			code_edit.indent_lines()
+		if mode == Mode.NORMAL:
+			code_edit.indent_lines()
+			globals.last_command = stream
+		return ''
+
+	if stream.begins_with('<TAB>') :
+		return ''
+
 	if stream.begins_with('r') and mode == Mode.NORMAL:
 		if stream.length() < 2:	return stream
 		code_edit.begin_complex_operation()
@@ -331,7 +420,10 @@ func handle_input_stream(stream: String) -> String:
 		return ''
 	if stream.begins_with('y'):
 		if is_mode_visual(mode):
-			code_edit.copy()
+			if mode == Mode.VISUAL_LINE:
+				DisplayServer.clipboard_set( '\r\n' + code_edit.get_selected_text() )
+			else:
+				code_edit.copy()
 			set_mode(Mode.NORMAL)
 			return ''
 		
@@ -435,6 +527,7 @@ func handle_input_stream(stream: String) -> String:
 			code_edit.indent_lines()
 			globals.last_command = stream
 			return ''
+	
 	if stream.begins_with('<'):
 		if is_mode_visual(mode) and stream.length() == 1:
 			code_edit.unindent_lines()
@@ -509,7 +602,7 @@ func get_word_edge_pos(from_line: int, from_col: int, delims: String, mode: Word
 		col = (text.length() - 1) * int(search_dir < 0 and char_offset < 0)
 	return Vector2i(from_col, from_line)
 
-func get_paragraph_edge_pos(from_line: int, search_dir: int):
+func get_paragraph_edge_pos(from_line: int, search_dir: int) -> Vector2i:
 	var line: int = from_line
 	var prev_empty: bool = code_edit.get_line(line) .strip_edges().is_empty()
 	line += search_dir
@@ -577,7 +670,7 @@ func calc_double_motion_region(from_pos: Vector2i, stream: String, from_char: in
 	
 	return [] # Unknown combination
 
-func toggle_comment(line: int):
+func toggle_comment(line: int) -> void:
 	var ind: int = code_edit.get_first_non_whitespace_column(line)
 	var text: String = get_line_text(line)
 	# Comment line
@@ -589,7 +682,7 @@ func toggle_comment(line: int):
 	code_edit.select(line, ind, line, start_col)
 	code_edit.delete_selection()
 
-func set_mode(m: int):
+func set_mode(m: int) -> void: 
 	var old_mode: int = mode
 	mode = m
 	command_line.close()
@@ -625,7 +718,7 @@ func set_mode(m: int):
 		_:
 			pass
 
-func move_line(offset:int):
+func move_line(offset:int) -> void:
 	set_line(get_line() + offset)
 
 func get_line() -> int:
@@ -648,41 +741,44 @@ func set_caret_pos(line: int, column: int):
 func get_caret_pos() -> Vector2i:
 	return Vector2i(code_edit.get_caret_column(), code_edit.get_caret_line())
 
-func set_line(position:int):
-	if !is_mode_visual(mode):
-		code_edit.set_caret_line(min(position, code_edit.get_line_count()-1))
-		return
+func set_line(position:int) -> void:
+	code_edit.set_caret_line(min(position, code_edit.get_line_count()-1))
 	
-	selection_to = Vector2i( clampi(selection_to.x, 0, get_line_length(position)), clampi(position, 0, code_edit.get_line_count()) )
-	update_visual_selection()
+	if is_mode_visual(mode):
+		selection_to = Vector2i( clampi(selection_to.x, 0, get_line_length(position)), clampi(position, 0, code_edit.get_line_count()) )
+		update_visual_selection()
 
 
-func move_column(offset: int):
+func move_column(offset: int) -> void:
 	set_column(get_column()+offset)
 	
-func get_column():
+func get_column() -> int:
 	if is_mode_visual(mode):
 		return selection_to.x
 	return code_edit.get_caret_column()
 
-func set_column(position: int):
-	if !is_mode_visual(mode):
-		var line: String = code_edit.get_line(code_edit.get_caret_line())
-		code_edit.set_caret_column(min(line.length(), position))
-		return
+func set_column(position: int) -> void:
+	var line: String = code_edit.get_line(code_edit.get_caret_line())
+	code_edit.set_caret_column(min(line.length(), position))
 	
-	selection_to = Vector2i( clampi(position, 0, get_line_length(selection_to.y)), clampi(selection_to.y, 0, code_edit.get_line_count()) )
-	update_visual_selection()
+	if is_mode_visual(mode):
+		selection_to = Vector2i( clampi(position, 0, get_line_length(selection_to.y)), clampi(selection_to.y, 0, code_edit.get_line_count()))
+		update_visual_selection()
 
-func update_visual_selection():
+
+func update_visual_selection() -> void:
 	if mode == Mode.VISUAL:
 		var to_right: bool = selection_to.x >= selection_from.x or selection_to.y > selection_from.y
 		code_edit.select( selection_from.y, selection_from.x + int(!to_right), selection_to.y, selection_to.x + int(to_right) )
+	
 	elif mode == Mode.VISUAL_LINE:
-		var f: int = mini(selection_from.y, selection_to.y) - 1
+		var f: int = mini(selection_from.y, selection_to.y)
 		var t: int = maxi(selection_from.y, selection_to.y)
-		code_edit.select(f, get_line_length(f), t, get_line_length(t))
-
+		code_edit.select(f, 0, t, get_line_length(t))
+	
+	code_edit.set_caret_line(min(selection_to.y, code_edit.get_line_count()-1))
+	
+	
 func is_mode_visual(m: int) -> bool:
 	return m == Mode.VISUAL or m == Mode.VISUAL_LINE
 
@@ -695,10 +791,11 @@ func is_uppercase(text: String) -> bool:
 func get_stream_char(stream: String, idx: int) -> String:
 	return stream[idx] if stream.length() > idx else ''
 
-func draw_cursor():
+func draw_cursor() -> void:
 	if code_edit.is_dragging_cursor():
-		selection_from = Vector2i(code_edit.get_selection_from_column(), code_edit.get_selection_from_line())
-		selection_to = Vector2i(code_edit.get_selection_to_column(), code_edit.get_selection_to_line())
+		if(code_edit.get_selected_text(0)):
+			selection_from = Vector2i(code_edit.get_selection_from_column(), code_edit.get_selection_from_line())
+			selection_to = Vector2i(code_edit.get_selection_to_column(), code_edit.get_selection_to_line())
 	
 	if code_edit.get_selected_text(0).length() > 1 and !is_mode_visual(mode):
 		code_edit.release_focus()
@@ -720,3 +817,53 @@ func draw_cursor():
 		code_edit.set_caret_column(column)
 	
 	code_edit.select(line, column, line, column+1)
+
+func paste_forward() -> void:
+		code_edit.begin_complex_operation()
+		if is_mode_visual(mode):
+			code_edit.delete_selection()
+		if DisplayServer.clipboard_get().begins_with('\r\n'):
+			set_column(get_line_length())
+		else:
+			move_column(+1)
+		code_edit.deselect()
+		code_edit.paste()
+		move_column(-1)
+		code_edit.end_complex_operation()
+		set_mode(Mode.NORMAL)
+	
+func paste_backward() -> void:
+	code_edit.begin_complex_operation()
+	if is_mode_visual(mode):
+		code_edit.delete_selection()
+	if DisplayServer.clipboard_get().begins_with('\r\n'):
+		move_line(-1)
+		set_column(get_line_length())
+	code_edit.deselect()
+	code_edit.paste()
+	code_edit.end_complex_operation()
+	set_mode(Mode.NORMAL)
+	
+func swap_line(line: int, n: int) -> void:
+	code_edit.swap_lines(min(line, line+n), max(line, line+n))
+	if(is_mode_visual(mode)):
+		update_visual_selection()
+	else: 
+		move_line(n)
+
+func swap_multi_lines(from: int, to: int, n: int) -> void:
+	var a := from
+	var b := to
+	from = min(a,b)
+	to = max(a,b)
+	
+	code_edit.begin_complex_operation()
+	selection_from.y += n
+	selection_to.y += n
+	if n > 0:
+		for line in range(to, from-1, -1):
+			swap_line(line, n)
+	else:
+		for line in range(from, to+1):
+			swap_line(line, n)
+	code_edit.end_complex_operation()
