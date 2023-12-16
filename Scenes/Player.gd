@@ -35,14 +35,12 @@ func _physics_process(delta):
 	move_and_slide()
 	if(direction != Vector2.ZERO):
 		pre_direction = direction
-		print(prev_direction)
 	
 	if(Global.move_mode == Global.MoveType.MOUSE):
-		rotate_by_position(get_global_mouse_position())
-		#look_at(get_global_mouse_position())
+		look_at(get_global_mouse_position())
 	elif(Global.move_mode == Global.MoveType.KEYBOARD):
-		rotate_by_position(velocity + position)
 		#look_at(velocity + position)
+		rotate_by_position(velocity + position)
 	
 	# rotate
 	
@@ -70,14 +68,14 @@ func rotate_by_position(p_position: Vector2):
 	if s < 0:
 		deg = s
 		if c >= PI * 3/5:
-			deg = -deg 
+			deg = -deg
 			player_sprite.flip_h = false
 			player_sprite.flip_v = false
 	else:
 		deg = c
 	
 	var tw = get_tree().create_tween()
-	tw.tween_property(player_sprite,"rotation" , deg, 0.2)
+	tw.tween_property(self,"rotation" , deg, 0.2)
 
 func play_jump():
 	$AnimationPlayer.play("Jump")

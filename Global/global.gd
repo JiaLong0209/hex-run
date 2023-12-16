@@ -17,20 +17,25 @@ var score := 0:
 		score = value
 		stat_change.emit()	
 
+var best_score := 0:
+	set(value):
+		best_score = value
+		stat_change.emit()	
+
+
 var is_fullscreen = true
 
 # 0 = keyboard, 1 = mouse
 var move_mode = MoveType.KEYBOARD
 
 
-func maxSum(arr, k:int):
-	for i in range(arr.size()):
-		arr[i] = arr.slice(i, k+i).reduce(func(acc,cur): return acc + cur, 0)
-	print(arr.max())
-	toggle_screen_mode()
+#func maxSum(arr, k:int):
+	#for i in range(arr.size()):
+		#arr[i] = arr.slice(i, k+i).reduce(func(acc,cur): return acc + cur, 0)
+	#print(arr.max())
 
 func _ready():
-	maxSum([3,5,3,1,1,5,9], 3)
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	
 func toggle_screen_mode():
 	is_fullscreen = !is_fullscreen
@@ -58,12 +63,30 @@ func _process(_delta):
 		get_tree().quit()
 	
 	if Input.is_action_just_pressed("game_restart"):
-		get_tree().change_scene_to_file("res://Scenes/world.tscn")
-		Global.reset() 
-		print('restart')
+		start()
+		
+	if Input.is_action_just_pressed("game_start"):
+		start()
+		
+	if Input.is_action_just_pressed("clear_best_score"):
+		best_score = 0
+	
+	if Input.is_action_just_pressed("back_to_menu"):
+		back_to_menu()
 		
 
 func reset():
 	player_health = 10
 	score = 0
 	UI.update()
+
+func start():
+	TransitionLayer.change_scene("res://Scenes/world.tscn")
+	reset()
+	EndMenu.visible = false
+	
+
+func back_to_menu():
+	reset()
+	TransitionLayer.change_scene("res://Scenes/main_menu.tscn")
+	EndMenu.visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://e18o51pjw0ph"]
+[gd_scene load_steps=10 format=3 uid="uid://e18o51pjw0ph"]
 
 [ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_8rqkd"]
 [ext_resource type="Texture2D" uid="uid://cst1dfbmkaqnr" path="res://Images/sticker.png" id="1_g0wfr"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="5_cdcfn"]
 [ext_resource type="PackedScene" uid="uid://bpe5sj2bflr4t" path="res://Objects/player.tscn" id="6_wo2mq"]
 [ext_resource type="PackedScene" uid="uid://dretnxevkiy0o" path="res://Scenes/walls.tscn" id="7_c7ney"]
+[ext_resource type="LabelSettings" uid="uid://df8aoo08htuk7" path="res://Styles/label_1.tres" id="9_f0q8j"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -23,8 +24,8 @@ script = ExtResource("1_8rqkd")
 modulate = Color(0.309804, 0.0666667, 0.286275, 1)
 z_index = -2
 texture_repeat = 2
-position = Vector2(560, 284)
-scale = Vector2(0.5, 0.5)
+position = Vector2(33.0005, -87)
+scale = Vector2(0.8105, 0.772)
 texture = ExtResource("5_cdcfn")
 region_enabled = true
 region_rect = Rect2(-936, -576, 8000, 6000)
@@ -72,7 +73,16 @@ theme = ExtResource("2_0mx44")
 text = "Shift = Speed up 
 Space = Jump 
 E = Flashlight
-G = Change move mode"
+G = Change move mode
+
+R = Restart
+Enter = Start
+T = Back to menu
+C = Clear best score
+Esc = Quit 
+
+F11 = Full Screen"
+label_settings = ExtResource("9_f0q8j")
 
 [connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -13,6 +13,8 @@ var transition := 0.4
 @onready var health_sprite := preload("res://Objects/health_sprite.tscn")
 @onready var health_container := $UIContainer/VBoxContainer/HealthContainer
 @onready var score_container := $UIContainer/VBoxContainer/ScoreContainer
+@onready var best_score_label := $UIContainer/VBoxContainer/ScoreContainer2/BestScoreLabel
+@onready var best_score_container:= $UIContainer/VBoxContainer/ScoreContainer2
 
 func _ready():
 	Global.connect("stat_change", update)
@@ -52,9 +54,22 @@ func update_score_text(tw):
 	else:
 		tw.tween_property(score_container, "modulate", blue, transition)
 
+	
+func update_best_score_text(tw):
+	best_score_label.text = "Best Score: %d" % [max(Global.score, Global.best_score)]
+	if(Global.score < 10):
+		tw.tween_property(best_score_container, "modulate", white, transition)
+	elif(Global.score < 30):
+		tw.tween_property(best_score_container, "modulate", green, transition)
+	elif(Global.score < 50):
+		tw.tween_property(best_score_container, "modulate", yellow, transition)
+	else:
+		tw.tween_property(best_score_container, "modulate", blue, transition)
+
 func update(tw = create_tween()):
 	tw.set_parallel()
 	update_player_health_text(tw)
 	update_score_text(tw)
+	update_best_score_text(tw)
 	
 	
