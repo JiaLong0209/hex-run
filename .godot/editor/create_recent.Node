@@ -1,0 +1,14 @@
+Sprite2D
+RichTextLabel
+ColorRect
+Label
+Control
+HBoxContainer
+AspectRatioContainer
+AnimationPlayer
+CanvasLayer
+TextureProgressBar
+ProgressBar
+TextureRect
+VBoxContainer
+CollisionShape2D
