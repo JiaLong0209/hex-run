@@ -60,6 +60,7 @@ toggle_mode = true
 text = "Back to Menu"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+visible = false
 modulate = Color(0.835294, 0.74902, 0.345098, 1)
 self_modulate = Color(1, 0.215686, 1, 1)
 layout_mode = 2

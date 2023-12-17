@@ -8,7 +8,7 @@ const JUMP_VELOCITY = -400.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction := Vector2.ZERO
 var pre_direction := Vector2.ZERO
-var prev_direction := Vector2.ZERO
+var pre_position := Vector2.ZERO
 var active_flashlight = false
 var speed_up = 1
 var jump_speed = 15
@@ -32,6 +32,7 @@ func _physics_process(delta):
 	if(velocity):
 		$GPUParticles2D.emitting = true
 	
+	pre_position = position
 	move_and_slide()
 	if(direction != Vector2.ZERO):
 		pre_direction = direction
@@ -79,6 +80,7 @@ func rotate_by_position(p_position: Vector2):
 
 func play_jump():
 	$AnimationPlayer.play("Jump")
+	Global.show_jump_effects()
 	
 func play_speed_up():
 	var tween = create_tween()
@@ -102,14 +104,12 @@ func get_move_by_key():
 		player_sprite.flip_v = false
 		#player_sprite.scale.x = -0.1
 		direction.x = 1
-#	if prev_direction.x == 1 and Input.is_action_pressed("ui_left") and Input.is_action_pressed("ui_right"):
 #		direction.x = -1
 		
 	if Input.is_action_pressed("ui_up"):
 		direction.y = -1
 	if Input.is_action_pressed("ui_down"):
 		direction.y = 1
-#	if prev_direction.y == 1 and Input.is_action_pressed("ui_up"):
 #		direction.y = -1
 
 	if Input.is_action_pressed("SpeedUp"):
@@ -120,7 +120,6 @@ func get_move_by_key():
 		play_jump()
 		speed_up = jump_speed
 		
-	prev_direction = direction
 	direction = direction.normalized()    
 	
 	velocity =  direction * speed * speed_up

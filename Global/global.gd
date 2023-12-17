@@ -28,6 +28,8 @@ var is_fullscreen = true
 # 0 = keyboard, 1 = mouse
 var move_mode = MoveType.KEYBOARD
 
+@onready var get_score_label = preload('res://UI/get_score_label.tscn')
+@onready var jump_effects = preload("res://Objects/jump_effects.tscn")
 
 #func maxSum(arr, k:int):
 	#for i in range(arr.size()):
@@ -91,3 +93,21 @@ func back_to_menu():
 	reset()
 	TransitionLayer.change_scene("res://Scenes/main_menu.tscn")
 	EndMenu.visible = false
+
+func popup_score():
+	var s = get_score_label.instantiate()
+	var player = get_tree().get_nodes_in_group("Players")[0] as CharacterBody2D
+	var random_position = Vector2(randi_range(-50, 0), randi_range(-50, 0))
+	s.position = player.position + random_position
+	add_child(s)
+
+func show_jump_effects():
+	var jump_effects = jump_effects.instantiate()
+	var player = get_tree().get_nodes_in_group("Players")[0] as CharacterBody2D
+	jump_effects.position = player.position
+	jump_effects.rotation = rad_to_deg(randf_range(0, 2 * PI))
+	add_child(jump_effects)
+	
+	
+	
+	

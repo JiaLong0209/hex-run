@@ -30,4 +30,5 @@ func _on_score_box_body_entered(body):
 	if body.is_in_group("Players"):
 		Global.score += 1
 		Global.best_score = max(Global.best_score, Global.score)
+		Global.popup_score()
 		

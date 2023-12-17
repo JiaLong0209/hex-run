@@ -55,20 +55,25 @@ func update_score_text(tw):
 		tw.tween_property(score_container, "modulate", green, transition)
 	elif(Global.score < 50):
 		tw.tween_property(score_container, "modulate", yellow, transition)
-	else:
+	elif(Global.score < 60):
 		tw.tween_property(score_container, "modulate", blue, transition)
+	else:
+		tw.tween_property(score_container, "modulate", red, transition)
 
 	
 func update_best_score_text(tw):
 	best_score_label.text = "Best Score: %d" % [max(Global.score, Global.best_score)]
-	if(Global.score < 10):
+	if(Global.best_score < 10):
 		tw.tween_property(best_score_container, "modulate", white, transition)
-	elif(Global.score < 30):
+	elif(Global.best_score < 30):
 		tw.tween_property(best_score_container, "modulate", green, transition)
-	elif(Global.score < 50):
+	elif(Global.best_score < 50):
 		tw.tween_property(best_score_container, "modulate", yellow, transition)
-	else:
+	elif(Global.best_score < 60):
 		tw.tween_property(best_score_container, "modulate", blue, transition)
+	else:
+		tw.tween_property(best_score_container, "modulate", red, transition)
+
 
 func update(tw = create_tween()):
 	tw.set_parallel()

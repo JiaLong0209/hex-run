@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://collgn081bc8u"]
+
+[ext_resource type="Theme" uid="uid://dhs3pbm357mtn" path="res://UI/main_theme.tres" id="1_guxmk"]
+[ext_resource type="Script" path="res://UI/get_score_label.gd" id="2_fcwhm"]
+
+[node name="GetScoreLabel" type="RichTextLabel"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("1_guxmk")
+text = "+1"
+script = ExtResource("2_fcwhm")

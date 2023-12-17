@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cjmcdeg8wlj21" path="res://Container/button_container.tscn" id="1_vjvi1"]
 
-[node name="ButtonContainer" instance=ExtResource("1_vjvi1")]
+[node name="ButtonContainer2" instance=ExtResource("1_vjvi1")]
 offset_left = -62.0
 offset_top = -26.0
 offset_right = 58.0
