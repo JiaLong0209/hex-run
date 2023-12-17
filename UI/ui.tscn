@@ -19,11 +19,11 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIContainer"]
-layout_mode = 1
+layout_mode = 2
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 155.0
-offset_bottom = 102.0
+offset_right = 189.0
+offset_bottom = 668.0
 
 [node name="HealthContainer" type="HBoxContainer" parent="UIContainer/VBoxContainer"]
 layout_mode = 2
@@ -51,6 +51,23 @@ layout_mode = 2
 layout_mode = 2
 theme = ExtResource("1_dkt25")
 text = "Score:"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UIContainer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -169.0
+offset_top = 20.0
+offset_right = -15.0
+offset_bottom = 56.0
+grow_horizontal = 0
+
+[node name="FPSLabel" type="Label" parent="UIContainer/VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("1_dkt25")
+text = "FPS:10"
+horizontal_alignment = 2
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 anchors_preset = 12

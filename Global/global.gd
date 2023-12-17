@@ -36,6 +36,7 @@ var move_mode = MoveType.KEYBOARD
 
 func _ready():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	Engine.max_fps = 0
 	
 func toggle_screen_mode():
 	is_fullscreen = !is_fullscreen

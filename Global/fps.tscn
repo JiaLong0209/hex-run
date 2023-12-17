@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://db8upnu503ggk"]
+
+[ext_resource type="Theme" uid="uid://dhs3pbm357mtn" path="res://UI/main_theme.tres" id="1_ds2su"]
+
+[node name="FPS" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = -178.0
+offset_top = 14.0
+offset_right = -26.0
+offset_bottom = 50.0
+theme = ExtResource("1_ds2su")
+text = "FPS:100"
+horizontal_alignment = 2

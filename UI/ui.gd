@@ -15,11 +15,15 @@ var transition := 0.4
 @onready var score_container := $UIContainer/VBoxContainer/ScoreContainer
 @onready var best_score_label := $UIContainer/VBoxContainer/ScoreContainer2/BestScoreLabel
 @onready var best_score_container:= $UIContainer/VBoxContainer/ScoreContainer2
+@onready var fps_label := $UIContainer/VBoxContainer2/FPSLabel
 
 func _ready():
 	Global.connect("stat_change", update)
 	update()
 
+
+func _process(delta: float) -> void:
+	fps_label.text = "FPS: %d" % round(Engine.get_frames_per_second())
 
 func update_player_health_text(tw):
 	
