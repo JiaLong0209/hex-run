@@ -80,6 +80,8 @@ R = Restart
 Enter = Start
 T = Back to menu
 C = Clear best score
+Mouse up = Zoom in
+Mouse down = Zoom out
 
 F11 = Full Screen
 Esc = Quit "

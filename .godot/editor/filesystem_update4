@@ -22,3 +22,4 @@ res://Objects/hex.gd
 res://UI/ui.gd
 res://Scenes/main_menu.tscn
 res://Styles/label_1.tres
+res://Scenes/Player.gd

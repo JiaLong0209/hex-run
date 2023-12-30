@@ -37,7 +37,9 @@ func _physics_process(delta):
 	scale = Vector2(my_scale, my_scale)
 	my_scale -= delta_scale * delta
 	
-	rotation += delta_rotation * delta * (Global.score / 10.0) * rotate_direction
+	if(Global.score > 10):
+		rotation += delta_rotation * delta * (Global.score / 10.0) * rotate_direction
+	
 	if(delta_scale < 12):
 		delta_scale += delta * Global.score / 10.0
 		

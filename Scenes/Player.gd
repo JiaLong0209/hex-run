@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 signal died
@@ -19,6 +20,7 @@ var player_invulnerable_time = 0.2
 
 func _ready():
 	$PointLight2D.visible = active_flashlight
+	$Camera2D.zoom = Global.global_camera_zoom
 	
 func _physics_process(delta):
 	flashlight_handler()
