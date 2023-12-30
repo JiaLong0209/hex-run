@@ -5,7 +5,7 @@ var red := Color(0.9, 0, 0, 1)
 var yellow := Color('fff377')
 var blue := Color('2551f5')
 var white := Color('fff')
-var transition := 0.4
+var transition := 0.3
 
 @onready var health_label := $UIContainer/VBoxContainer/HealthContainer/HealthLabel
 @onready var score_label := $UIContainer/VBoxContainer/ScoreContainer/ScoreLabel
@@ -16,6 +16,8 @@ var transition := 0.4
 @onready var best_score_label := $UIContainer/VBoxContainer/ScoreContainer2/BestScoreLabel
 @onready var best_score_container:= $UIContainer/VBoxContainer/ScoreContainer2
 @onready var fps_label := $UIContainer/VBoxContainer2/FPSLabel
+@onready var game_mode_label := $UIContainer/VBoxContainer3/GameModeLabel
+@onready var game_mode_container := $UIContainer/VBoxContainer3
 
 func _ready():
 	Global.connect("stat_change", update)
@@ -74,11 +76,32 @@ func update_best_score_text(tw):
 	else:
 		tw.tween_property(best_score_container, "modulate", red, transition)
 
+func update_game_mode_text(tw):
+	game_mode_label.text = "Mode: %s" % [get_game_mode_text(Global.game_difficulty)]
+	match Global.game_difficulty:
+		Global.Difficulty.EASY:
+			tw.tween_property(game_mode_container, "modulate", green, 0.1)
+		Global.Difficulty.NORMAL:
+			tw.tween_property(game_mode_container, "modulate", white, 0.1)
+		Global.Difficulty.HARD:
+			tw.tween_property(game_mode_container, "modulate", red, 0.1)
 
+func get_game_mode_text(mode):
+	var text = ''
+	match mode:
+		Global.Difficulty.EASY:
+			text = 'Easy'
+		Global.Difficulty.NORMAL:
+			text = 'Normal'
+		Global.Difficulty.HARD:
+			text = 'Hard'
+	return text
+	
 func update(tw = create_tween()):
 	tw.set_parallel()
 	update_player_health_text(tw)
 	update_score_text(tw)
 	update_best_score_text(tw)
+	update_game_mode_text(tw)
 	
 	

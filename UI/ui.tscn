@@ -69,6 +69,24 @@ theme = ExtResource("1_dkt25")
 text = "FPS:10"
 horizontal_alignment = 2
 
+[node name="VBoxContainer3" type="VBoxContainer" parent="UIContainer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -77.0
+offset_top = 20.0
+offset_right = 77.0
+offset_bottom = 56.0
+grow_horizontal = 2
+
+[node name="GameModeLabel" type="Label" parent="UIContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("1_dkt25")
+text = "Mode: Normal"
+horizontal_alignment = 2
+
 [node name="HealthBar" type="ProgressBar" parent="."]
 anchors_preset = 12
 anchor_top = 1.0

@@ -7,6 +7,15 @@ enum MoveType {
 	MOUSE
 }
 
+enum Difficulty {
+	EASY = 0,
+	NORMAL = 1,
+	HARD = 2
+}
+
+var game_difficulty = Difficulty.NORMAL
+var diff_list = [Difficulty.EASY,Difficulty.NORMAL,Difficulty.HARD]
+
 var player_health := 10 :
 	set(value):
 		player_health = value
@@ -17,11 +26,18 @@ var score := 0:
 		score = value
 		stat_change.emit()	
 
+var all_best_score = {
+	Difficulty.EASY : 0,
+	Difficulty.NORMAL : 0,
+	Difficulty.HARD : 0,
+}
+
 var best_score := 0:
 	set(value):
-		best_score = value
+		all_best_score[game_difficulty] = value
 		stat_change.emit()	
-
+	get:
+		return all_best_score[game_difficulty]
 
 var is_fullscreen = true
 
@@ -39,21 +55,6 @@ var move_mode = MoveType.KEYBOARD
 func _ready():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	Engine.max_fps = 0
-	
-func toggle_screen_mode():
-	is_fullscreen = !is_fullscreen
-	if(is_fullscreen):
-		print('FullScreen')
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-	else:
-		print('Windowed')
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-
-func toggle_move_mode():
-	if(move_mode == MoveType.KEYBOARD):
-		move_mode = MoveType.MOUSE
-	else:
-		move_mode = MoveType.KEYBOARD
 
 func _process(_delta):
 	if Input.is_action_just_pressed("full_screen"):
@@ -61,6 +62,12 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("change_move_mode"):
 		toggle_move_mode()
+	
+	if Input.is_action_just_pressed("change_next_game_difficulty"):
+		change_game_difficulty(1)
+	
+	if Input.is_action_just_pressed("change_prev_game_difficulty"):
+		change_game_difficulty(-1)
 	
 	if Input.is_action_just_pressed("game_end"):
 		get_tree().quit()
@@ -110,4 +117,24 @@ func show_jump_effects():
 	
 	
 	
-	
+func toggle_screen_mode():
+	is_fullscreen = !is_fullscreen
+	if(is_fullscreen):
+		print('FullScreen')
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		print('Windowed')
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func toggle_move_mode():
+	if(move_mode == MoveType.KEYBOARD):
+		move_mode = MoveType.MOUSE
+	else:
+		move_mode = MoveType.KEYBOARD
+
+func change_game_difficulty(count: int):
+	if(get_tree().current_scene.name != 'MainMenu'): return
+	var diff_index = diff_list.find(game_difficulty)
+	game_difficulty = diff_list[(diff_index+count) % len(diff_list)]
+	UI.update()
+ 

@@ -17,6 +17,8 @@ res://Objects/health_sprite.tscn
 res://Global/transition_layer.tscn
 res://UI/get_score_label.tscn
 res://Objects/jump_effects.tscn
-res://Objects/jump_effects.gd
 res://Global/global.gd
+res://Objects/hex.gd
 res://UI/ui.gd
+res://Scenes/main_menu.tscn
+res://Styles/label_1.tres

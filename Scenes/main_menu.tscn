@@ -74,14 +74,15 @@ text = "Shift = Speed up
 Space = Jump 
 E = Flashlight
 G = Change move mode
+<, > = Change game difficulty
 
 R = Restart
 Enter = Start
 T = Back to menu
 C = Clear best score
-Esc = Quit 
 
-F11 = Full Screen"
+F11 = Full Screen
+Esc = Quit "
 label_settings = ExtResource("9_f0q8j")
 
 [connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
