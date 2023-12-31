@@ -3,8 +3,13 @@ extends CanvasLayer
 var green := Color('55f059')
 var red := Color(0.9, 0, 0, 1)
 var yellow := Color('fff377')
-var blue := Color('2551f5')
+var blue := Color('79f6fc')
+var blue_azure := Color('8080ff')
 var white := Color('fff')
+var orange := Color('f60')
+
+var score_ranks = [0, 20, 40, 60, 80, 100, 150]
+var color_ranks = [white, green, yellow, blue, orange, red, blue_azure]
 var transition := 0.3
 
 @onready var health_label := $UIContainer/VBoxContainer/HealthContainer/HealthLabel
@@ -50,31 +55,12 @@ func update_player_health_text(tw):
 		
 func update_score_text(tw):
 	score_label.text = "Score: %d" % [Global.score]
-	
-	if(Global.score < 10):
-		tw.tween_property(score_container, "modulate", white, transition)
-	elif(Global.score < 30):
-		tw.tween_property(score_container, "modulate", green, transition)
-	elif(Global.score < 50):
-		tw.tween_property(score_container, "modulate", yellow, transition)
-	elif(Global.score < 60):
-		tw.tween_property(score_container, "modulate", blue, transition)
-	else:
-		tw.tween_property(score_container, "modulate", red, transition)
-
+	change_score_text_color(score_container, Global.score, transition,  tw)
 	
 func update_best_score_text(tw):
 	best_score_label.text = "Best Score: %d" % [max(Global.score, Global.best_score)]
-	if(Global.best_score < 10):
-		tw.tween_property(best_score_container, "modulate", white, transition)
-	elif(Global.best_score < 30):
-		tw.tween_property(best_score_container, "modulate", green, transition)
-	elif(Global.best_score < 50):
-		tw.tween_property(best_score_container, "modulate", yellow, transition)
-	elif(Global.best_score < 60):
-		tw.tween_property(best_score_container, "modulate", blue, transition)
-	else:
-		tw.tween_property(best_score_container, "modulate", red, transition)
+	change_score_text_color(best_score_container, Global.best_score, transition, tw)
+	
 
 func update_game_mode_text(tw):
 	game_mode_label.text = "Mode: %s" % [get_game_mode_text(Global.game_difficulty)]
@@ -104,4 +90,9 @@ func update(tw = create_tween()):
 	update_best_score_text(tw)
 	update_game_mode_text(tw)
 	
+func change_score_text_color(node, score, transition = 0.0,  tw = create_tween()):
+	for i in len(score_ranks):
+		if(score >= score_ranks[i]):
+			tw.tween_property(node, "modulate", color_ranks[i], transition)
 	
+ 

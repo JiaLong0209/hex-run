@@ -1,8 +1,11 @@
-res://Scenes/world.tscn
+res://Scenes/main_menu.tscn
 res://Objects/player.gdshader
 res://Styles/focus.tres
+res://Styles/label_1.tres
 res://Objects/animateLine.gdshader
 res://Objects/sketch.gdshader
+res://UI/ui.gd
+res://Scenes/world.tscn
 res://Scenes/end_menu.tscn
 res://Objects/player.tscn
 res://Objects/hex.tscn
@@ -17,9 +20,5 @@ res://Objects/health_sprite.tscn
 res://Global/transition_layer.tscn
 res://UI/get_score_label.tscn
 res://Objects/jump_effects.tscn
+res://UI/get_score_label.gd
 res://Global/global.gd
-res://Objects/hex.gd
-res://UI/ui.gd
-res://Scenes/main_menu.tscn
-res://Styles/label_1.tres
-res://Scenes/Player.gd

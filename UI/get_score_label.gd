@@ -11,15 +11,7 @@ func _ready() -> void:
 	queue_free()
 
 func change_text_color(tw):
-	if(Global.score < 10):
-		tw.tween_property(self, "modulate", UI.white, 0)
-	elif(Global.score < 30):
-		tw.tween_property(self, "modulate", UI.green, 0)
-	elif(Global.score < 50):
-		tw.tween_property(self, "modulate", UI.yellow, 0)
-	else:
-		tw.tween_property(self, "modulate", UI.blue, 0)
-	
+	UI.change_score_text_color(self, Global.score, 0, tw)
 
 
 

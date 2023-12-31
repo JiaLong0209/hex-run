@@ -13,13 +13,20 @@ enum Difficulty {
 	HARD = 2
 }
 
-var game_difficulty = Difficulty.NORMAL
+var game_difficulty = Difficulty.EASY
 var diff_list = [Difficulty.EASY,Difficulty.NORMAL,Difficulty.HARD]
+var dev_mode = true
 
-var player_health := 10 :
+
+
+var health : int = 10
+
+
+var player_health := health :
 	set(value):
 		player_health = value
 		stat_change.emit()	
+
 
 var score := 0:
 	set(value):
@@ -56,6 +63,8 @@ var global_camera_zoom = Vector2(1.0, 1.0)
 func _ready():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	Engine.max_fps = 0
+	if dev_mode: 
+		health = 300
 
 func _process(_delta):
 	if Input.is_action_just_pressed("full_screen"):
@@ -93,7 +102,7 @@ func _process(_delta):
 
 
 func reset():
-	player_health = 10
+	player_health = health
 	score = 0
 	UI.update()
 

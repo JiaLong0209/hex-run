@@ -24,9 +24,11 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 189.0
 offset_bottom = 668.0
+mouse_filter = 2
 
 [node name="HealthContainer" type="HBoxContainer" parent="UIContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="HealthLabel" type="Label" parent="UIContainer/VBoxContainer/HealthContainer"]
 layout_mode = 2
