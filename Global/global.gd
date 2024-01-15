@@ -15,7 +15,8 @@ enum Difficulty {
 
 var game_difficulty = Difficulty.EASY
 var diff_list = [Difficulty.EASY,Difficulty.NORMAL,Difficulty.HARD]
-var dev_mode = true
+# Devloper Mode 
+var dev_mode = false
 
 
 
