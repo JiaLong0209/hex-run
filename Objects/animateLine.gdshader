@@ -1,7 +1,7 @@
 
 shader_type canvas_item;
 
-uniform float line_thickness : hint_range(0, 20) = 1.0;    // thickness of the line
+uniform float line_thickness : hint_range(0, 20) = 15.0;    // thickness of the line
 uniform float sin_frequency : hint_range(0.1, 2.0) = 0.5;  // frequency of the rainbow
 uniform float sin_offset : hint_range(0.0, 360.0) = 0.0;   // offset of the rainbow, useful to differentiate objects using the same shader
 uniform float light_offset : hint_range(0.0, 1.0) = 0.5;   // this offsets all color channels; if set to 0 only red green and blue colors will be shown.

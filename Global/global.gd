@@ -15,10 +15,11 @@ enum Difficulty {
 
 var game_difficulty = Difficulty.EASY
 var diff_list = [Difficulty.EASY,Difficulty.NORMAL,Difficulty.HARD]
+
 # Devloper Mode 
 var dev_mode = false
 
-
+var invincible_mode = false
 
 var health : int = 10
 
