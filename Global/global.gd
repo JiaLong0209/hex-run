@@ -19,7 +19,7 @@ var diff_list = [Difficulty.EASY,Difficulty.NORMAL,Difficulty.HARD]
 # Devloper Mode 
 var dev_mode = false
 
-var invincible_mode = false
+var practice_mode = false
 
 var health : int = 10
 
@@ -71,6 +71,9 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_just_pressed("full_screen"):
 		toggle_screen_mode()
+	
+	if Input.is_action_just_pressed("toggle_practice_mode"):
+		toggle_practice_mode()
 	
 	if Input.is_action_just_pressed("change_move_mode"):
 		toggle_move_mode()
@@ -141,7 +144,6 @@ func show_jump_effects():
 	add_child(jump_effects)
 	
 	
-	
 func toggle_screen_mode():
 	is_fullscreen = !is_fullscreen
 	if(is_fullscreen):
@@ -156,6 +158,14 @@ func toggle_move_mode():
 		move_mode = MoveType.MOUSE
 	else:
 		move_mode = MoveType.KEYBOARD
+
+func toggle_practice_mode():
+	practice_mode = !practice_mode
+	if(practice_mode):
+		start()
+	else:
+		back_to_menu()
+
 
 func change_game_difficulty(count: int):
 	if(get_tree().current_scene.name != 'MainMenu'): return

@@ -21,6 +21,12 @@ var player_invulnerable_time = 0.2
 func _ready():
 	$PointLight2D.visible = active_flashlight
 	$Camera2D.zoom = Global.global_camera_zoom
+	$Sprite2D.material.set("shader_parameter/progress", 0)
+	Global.player_health = Global.health
+	
+	
+	
+	
 	
 func _physics_process(delta):
 	flashlight_handler()
@@ -144,7 +150,7 @@ func get_move_by_mouse(delta):
 
 
 func _on_hit_box_body_entered(body):
-	if body.is_in_group("Walls") and player_vulnerable and !Global.invincible_mode:
+	if body.is_in_group("Walls") and player_vulnerable and !Global.practice_mode:
 		Global.player_health -= 1
 		
 		if(Global.player_health <= 0): 

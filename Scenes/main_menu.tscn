@@ -73,7 +73,8 @@ theme = ExtResource("2_0mx44")
 text = "Shift = Speed up 
 Space = Jump 
 E = Flashlight
-G = Change move mode
+G = Toggle move mode
+P = Toggle practice mode
 <, > = Change game difficulty
 
 R = Restart
