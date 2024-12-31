@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bpe5sj2bflr4t"]
+[gd_scene load_steps=15 format=3 uid="uid://bpe5sj2bflr4t"]
 
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_f4ubo"]
 [ext_resource type="Texture2D" uid="uid://da20lik5pp8gx" path="res://Images/Player.png" id="2_sx7ic"]
 [ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="3_0pcyd"]
 [ext_resource type="Shader" path="res://Objects/player.gdshader" id="3_k0hr0"]
 [ext_resource type="Texture2D" uid="uid://cugfpcmr0ykya" path="res://Images/Yabe_New.png" id="4_gm61c"]
+[ext_resource type="Script" path="res://Objects/AIController2D.gd" id="6_c4e8x"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yyk0t"]
 particle_flag_disable_z = true
@@ -152,5 +153,8 @@ libraries = {
 }
 autoplay = "speedUp"
 speed_scale = 0.99
+
+[node name="AIController2D" type="Node2D" parent="."]
+script = ExtResource("6_c4e8x")
 
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]

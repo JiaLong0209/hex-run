@@ -17,7 +17,7 @@ metadata/_edit_group_ = true
 [node name="ScoreBox" type="Area2D" parent="."]
 
 [node name="ScoreCollisionBox" type="CollisionShape2D" parent="ScoreBox"]
-position = Vector2(0, 85.5)
+position = Vector2(0, 85.295)
 shape = SubResource("RectangleShape2D_v8iw3")
 one_way_collision_margin = 0.0
 

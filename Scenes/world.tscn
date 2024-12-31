@@ -46,7 +46,6 @@ texture = ExtResource("2_slfi8")
 
 [node name="HexSpawner" type="Timer" parent="."]
 process_callback = 0
-wait_time = 1.039
 autostart = true
 script = ExtResource("7_ajpo4")
 

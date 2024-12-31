@@ -4,6 +4,7 @@ res://Styles/focus.tres
 res://Styles/label_1.tres
 res://Objects/animateLine.gdshader
 res://Objects/sketch.gdshader
+res://Scenes/Player.gd
 res://Scenes/world.tscn
 res://Scenes/end_menu.tscn
 res://Objects/hex.tscn
@@ -19,3 +20,11 @@ res://Global/transition_layer.tscn
 res://UI/get_score_label.tscn
 res://Objects/jump_effects.tscn
 res://Scenes/main_menu.tscn
+res://Global/global.gd
+res://script_templates/AIController/controller_template.gd
+res://Objects/AIController2D.gd
+res://Scenes/ai_environment.tscn
+res://Scenes/ai_environment.gd
+res://addons/godot_rl_agents/sync.gd
+res://addons/godot_rl_agents/controller/ai_controller_2d.gd
+res://Objects/hex.gd

@@ -19,10 +19,15 @@ var diff_list = [Difficulty.EASY,Difficulty.NORMAL,Difficulty.HARD]
 # Devloper Mode 
 var dev_mode = false
 
+var ai_mode = true
+
 var practice_mode = false
 
 var health : int = 10
 
+var start_params : Dictionary = {
+	"wait_time": 1.0,
+}
 
 var player_health := health :
 	set(value):
@@ -48,7 +53,8 @@ var best_score := 0:
 	get:
 		return all_best_score[game_difficulty]
 
-var is_fullscreen = true
+#var is_fullscreen = true
+var is_fullscreen = false
 
 # 0 = keyboard, 1 = mouse
 var move_mode = MoveType.KEYBOARD
@@ -77,6 +83,9 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("change_move_mode"):
 		toggle_move_mode()
+		
+	if Input.is_action_just_pressed("toggle_ai_mode"):
+		toggle_ai_mode()
 	
 	if Input.is_action_just_pressed("change_next_game_difficulty"):
 		change_game_difficulty(1)
@@ -166,6 +175,12 @@ func toggle_practice_mode():
 	else:
 		back_to_menu()
 
+func toggle_ai_mode():
+	print("Toogle ai mode: " + str(ai_mode))
+	ai_mode = !ai_mode
+	var players : Array = get_tree().get_nodes_in_group("Players")
+	for player in players:
+		player.ai_mode = ai_mode
 
 func change_game_difficulty(count: int):
 	if(get_tree().current_scene.name != 'MainMenu'): return

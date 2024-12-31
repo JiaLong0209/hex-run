@@ -1,3 +1,5 @@
+Sync
+AIController2D
 Sprite2D
 RichTextLabel
 ColorRect
@@ -11,4 +13,3 @@ TextureProgressBar
 ProgressBar
 TextureRect
 VBoxContainer
-CollisionShape2D
