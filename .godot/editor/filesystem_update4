@@ -22,3 +22,6 @@ res://addons/godot_rl_agents/controller/ai_controller_2d.gd
 res://Logs/1000000_x1_b_20.json
 res://Styles/label_1.tres
 res://Scenes/main_menu.tscn
+res://Logs/1400000_x10_best_18.json
+res://Logs/a-3_2000000_x10_best_21.json
+res://Logs/a-4_3000000_x10_best_18.json
