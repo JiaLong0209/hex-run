@@ -62,8 +62,7 @@ rotation_smoothing_enabled = true
 
 [node name="Sync" type="Node" parent="."]
 script = ExtResource("8_5p5ph")
-action_repeat = 3
-speed_up = 5.0
+action_repeat = 1
 
 [connection signal="ai_died" from="Player" to="." method="_on_player_ai_died"]
 [connection signal="timeout" from="HexSpawner" to="HexSpawner" method="_on_timeout"]

@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://byctamjk5nxfa"]
+
+[ext_resource type="Script" path="res://Scenes/ai_environment.gd" id="1_ns6us"]
+[ext_resource type="Texture2D" uid="uid://2bvqotp4fn5o" path="res://Images/images.jpeg" id="2_arsi5"]
+[ext_resource type="Texture2D" uid="uid://da5yxbtecackq" path="res://Images/brick2.png" id="3_0l6fm"]
+[ext_resource type="Texture2D" uid="uid://brnu32xn04qkd" path="res://Objects/sticker.png" id="4_r5k6b"]
+[ext_resource type="PackedScene" uid="uid://dretnxevkiy0o" path="res://Scenes/walls.tscn" id="5_xfy3y"]
+[ext_resource type="PackedScene" uid="uid://bpe5sj2bflr4t" path="res://Objects/player.tscn" id="6_bqrfl"]
+[ext_resource type="Script" path="res://Scenes/hex_spawner.gd" id="7_xgav3"]
+
+[node name="UnitAIEnvironment" type="Node2D"]
+script = ExtResource("1_ns6us")
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="bg" type="Sprite2D" parent="Ground"]
+modulate = Color(0.309804, 0.0666667, 0.286275, 1)
+z_index = -2
+texture_repeat = 2
+position = Vector2(-28.9999, -47)
+scale = Vector2(0.732667, 0.582667)
+texture = ExtResource("2_arsi5")
+region_enabled = true
+region_rect = Rect2(-936, -576, 6000, 6000)
+
+[node name="HexGround" type="Sprite2D" parent="Ground"]
+self_modulate = Color(0.141176, 0.0117647, 0.0117647, 1)
+show_behind_parent = true
+z_index = -1
+texture_repeat = 3
+scale = Vector2(1.03511, 1.01125)
+texture = ExtResource("3_0l6fm")
+offset = Vector2(31.8808, 8.89988)
+region_enabled = true
+region_rect = Rect2(-728, -528, 3000, 3000)
+
+[node name="Decoration" type="Sprite2D" parent="Ground"]
+modulate = Color(1, 1, 1, 0.568627)
+scale = Vector2(0.786566, 0.768437)
+texture = ExtResource("4_r5k6b")
+
+[node name="TileMap" parent="." instance=ExtResource("5_xfy3y")]
+
+[node name="Player" parent="." instance=ExtResource("6_bqrfl")]
+
+[node name="HexSpawner" type="Timer" parent="."]
+process_callback = 0
+autostart = true
+script = ExtResource("7_xgav3")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+visible = false
+color = Color(0.890196, 0.168627, 0.12549, 1)
+blend_mode = 2
+shadow_enabled = true
+
+[connection signal="ai_died" from="Player" to="." method="_on_player_ai_died"]
+[connection signal="timeout" from="HexSpawner" to="HexSpawner" method="_on_timeout"]

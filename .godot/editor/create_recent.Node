@@ -1,3 +1,4 @@
+Camera2D
 Sync
 AIController2D
 Sprite2D
@@ -12,4 +13,3 @@ CanvasLayer
 TextureProgressBar
 ProgressBar
 TextureRect
-VBoxContainer

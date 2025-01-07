@@ -20,13 +20,16 @@ var player_vulnerable := true
 var player_invulnerable_time := 0.2
 
 var is_jump = false
-var jump_cooldown := 0.05  # Interval time between jumps
+var jump_cooldown := 0.055  # Interval time between jumps
 var last_jump_time = -jump_cooldown  # Tracks the last jump time
 
 
 
 # ai env
 var ai_mode = Global.ai_mode
+var verbose = false
+var frames = 0
+var frames_interval = 60
 
 @onready var player_sprite := $Sprite2D
 
@@ -39,6 +42,7 @@ func _ready():
 	Global.player_health = Global.health
 	
 func _physics_process(delta):
+	frames += 1
 	flashlight_handler()
 	$PointLight2D.visible = active_flashlight
 	speed_up = 1
@@ -67,32 +71,29 @@ func _physics_process(delta):
 		rotate_by_position(velocity + position)
 		
 	if ai_mode:
-		
+
 		var hexes: Array[Node] = get_tree().get_nodes_in_group("Walls")
-		var max_hex_count = 1
-		var reward = 0.1
-		#
-		#for i in range(min(hexes.size(), max_hex_count)):
-			#var hex = hexes[i]
-			#var score_box : Area2D = hex.find_child("ScoreBox")
-			#var collision_box : CollisionShape2D = score_box.find_child("ScoreCollisionBox")
-			#
-			#var distance = self.global_position.distance_to(collision_box.global_position)
-			#reward -= distance ** 1.5 * 0.0001
-			#print(str(i) + " Distance: " + str(distance))
-			#print("Reward: " + str(reward))
-		#ai_controller.reward += reward
-		#print("AI reward: " + str(ai_controller.get_reward()))
+		var max_hex_count = 3
+		var reward = 0.01
+
+		for i in range(min(hexes.size(), max_hex_count)):
+			var hex = hexes[i]
+			var score_box : Area2D = hex.find_child("ScoreBox")
+			var collision_box : CollisionShape2D = score_box.find_child("ScoreCollisionBox")
+			
+			var distance = self.global_position.distance_to(collision_box.global_position)
+			reward -= ((distance ** 1.5) * 0.00001) / (i+1) ** 2
+			
+			if show_verbose_info():
+				print(str(i) + " Distance: " + str(distance))
+				print("Reward: " + str(reward))
 				
-				#obs += [
-					#collision_box.global_position.x,
-					#collision_box.global_position.y,
-					#hex.my_scale,
-					#hex.delta_scale,
-					#hex.rotate_direction,
-					#hex.delta_rotation,
-				#]
-	
+		ai_controller.reward += reward
+		
+		if show_verbose_info():
+			print("AI reward: " + str(ai_controller.get_reward()))
+			print("------------------------------")
+	#
 	# rotate
 	
 	#if get_last_slide_collision() != null:
@@ -176,8 +177,6 @@ func jump():
 func _on_jump_timeout():
 	is_jump = false
 
-
-
 	
 func get_move_by_key():
 	direction = Vector2.ZERO
@@ -232,15 +231,18 @@ func _on_hit_box_body_entered(body):
 		Global.player_health -= 1
 		
 		if ai_mode: 
-			ai_controller.reward -= 10
+			ai_controller.reward -= 0.5 * (Global.score ** 0.5)
+			ai_controller.reward -= 1.0 * ((Global.health+1) / (Global.player_health+1)) ** 1.5
 		
 		if(Global.player_health <= 0): 
 			if ai_mode: 
-				ai_controller.reward -= 20
+				ai_controller.reward -= 10.0
 				ai_controller.reset()
 				ai_died.emit()
 				Global.reset()
+				self.position = Vector2(0, 0)
 				#TransitionLayer.reload()
+				
 			else:
 				died.emit()
 				queue_free()
@@ -253,3 +255,6 @@ func _on_hit_box_body_entered(body):
 		$Sprite2D.material.set("shader_parameter/progress", 0)
 		player_vulnerable = true  
 		
+func show_verbose_info():
+	return verbose and frames % frames_interval == 0
+

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://btdlit2pxhc8"]
+
+[ext_resource type="Script" path="res://addons/godot_rl_agents/sync.gd" id="1_5qttg"]
+[ext_resource type="PackedScene" uid="uid://byctamjk5nxfa" path="res://Scenes/unit_ai_environment.tscn" id="2_nspcg"]
+
+[node name="BatchAIEnvironment" type="Node2D"]
+
+[node name="UnitAIEnvironment" parent="." instance=ExtResource("2_nspcg")]
+
+[node name="UnitAIEnvironment2" parent="." instance=ExtResource("2_nspcg")]
+position = Vector2(3081, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1484, 224)
+zoom = Vector2(0.165, 0.165)
+
+[node name="Sync" type="Node" parent="."]
+script = ExtResource("1_5qttg")
+action_repeat = 1
+speed_up = 1.5

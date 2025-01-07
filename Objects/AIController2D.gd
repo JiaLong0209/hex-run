@@ -8,7 +8,7 @@ extends AIController2D
 var direction = Vector2.ZERO
 var jump = false
 var speed_up = false
-
+@onready var player : Player = $".."
 #-- Methods that need implementing using the "extend script" option in Godot --#
 
 func find(parent, type):
@@ -25,21 +25,29 @@ func get_obs() -> Dictionary:
 	
 	# Get all nodes in the 'Walls' group
 	var hexes: Array[Node] = get_tree().get_nodes_in_group("Walls")
+	var max_hex_count = 3
+	var params = 7
 	
-	# Prepare an observation array for 3 hexes, each with 4 values
-	var obs := [self.global_position.x, self.global_position.y]
-	var max_hex_count = 2
-	var params = 6
+
+	var obs := [
+		player.global_position.x,
+		player.global_position.y,
+		player.speed_up,
+		Global.player_health,
+		Global.score
+	]
 	
-	# Iterate through up to the first 3 hexes, or fewer if less are present
 	for i in range(max_hex_count):
 		if i < hexes.size():  # Use actual data if available
 			var hex = hexes[i]
 			var score_box : Area2D = hex.find_child("ScoreBox")
 			var collision_box : CollisionShape2D = score_box.find_child("ScoreCollisionBox")
+			var distance = player.global_position.distance_to(collision_box.global_position)
+			
 			obs += [
 				collision_box.global_position.x,
 				collision_box.global_position.y,
+				distance,
 				hex.my_scale,
 				hex.delta_scale,
 				hex.rotate_direction,
@@ -59,17 +67,16 @@ func get_obs() -> Dictionary:
 
 
 func get_reward() -> float:	
-	#assert(false, "the get_reward method is not implemented when extending from ai_controller") 
-	print(reward)
-	return reward 
+	return reward
+
+	
 	
 func get_action_space() -> Dictionary:
-	#assert(false, "the get get_action_space method is not implemented when extending from ai_controller") 
 	return {
 			"direction" : {
 				"size": 2,
 				"action_type": "continuous"
-			},
+		},
 			"jump" : {
 				"size": 1,
 				"action_type": "discrete"
@@ -81,15 +88,10 @@ func get_action_space() -> Dictionary:
 		}
 	
 func set_action(action) -> void:	
-	#assert(false, "the get set_action method is not implemented when extending from ai_controller") 	
-	print("Action:")
-	print(action)
 	direction.x = action["direction"][0]
 	direction.y = action["direction"][1]
 	jump = action["jump"]
 	speed_up = action["speed_up"]
-	
-	
 	
 # -----------------------------------------------------------------------------#
 

@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 
-var my_scale = 10
+var my_scale = 11
 var delta_scale = 3
 var delta_rotation = PI / 6
 var rotate_direction = 1
@@ -52,7 +52,7 @@ func _on_score_box_body_entered(body):
 		
 		var player: Player = body
 		if player.ai_mode: 
-			player.ai_controller.reward += 500
+			player.ai_controller.reward += 3.0 * (Global.score ** 0.5)
 		
 		Global.score += 1
 		Global.best_score = max(Global.best_score, Global.score)

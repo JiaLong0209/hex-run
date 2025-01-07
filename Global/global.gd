@@ -69,7 +69,7 @@ var global_camera_zoom = Vector2(1.0, 1.0)
 	#print(arr.max())
 
 func _ready():
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	set_screen_mode()
 	Engine.max_fps = 0
 	if dev_mode: 
 		health = 300
@@ -152,15 +152,18 @@ func show_jump_effects():
 	jump_effects.rotation = rad_to_deg(randf_range(0, 2 * PI))
 	add_child(jump_effects)
 	
-	
-func toggle_screen_mode():
-	is_fullscreen = !is_fullscreen
+func set_screen_mode():
 	if(is_fullscreen):
 		print('FullScreen')
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		print('Windowed')
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	
+	
+func toggle_screen_mode():
+	is_fullscreen = !is_fullscreen
+	set_screen_mode()
 
 func toggle_move_mode():
 	if(move_mode == MoveType.KEYBOARD):
@@ -174,6 +177,7 @@ func toggle_practice_mode():
 		start()
 	else:
 		back_to_menu()
+		
 
 func toggle_ai_mode():
 	print("Toogle ai mode: " + str(ai_mode))
@@ -202,4 +206,13 @@ func camera_zoom(value: float):
 	global_camera_zoom = alter_zoom
 
 
- 
+func save_dict_to_json(filename: String, dict: Dictionary) -> void:
+	var file = FileAccess.open(filename, FileAccess.WRITE)
+	if file:  # Check if file is successfully opened
+		var json_string = JSON.stringify(dict, "\t")  # Convert dictionary to JSON string with indentation
+		file.store_string(json_string)  # Write JSON string to file
+		file.close()  # Close the file to save changes
+		print("Save history to '" + str(filename) + "'")
+	else:
+		push_error("Failed to open file: " + filename)
+

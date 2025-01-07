@@ -9,7 +9,7 @@ size = Vector2(106, 10)
 polygon = PackedVector2Array(-47.1, -81.3, 47.2, -81.5, 94.2, 0.1, 45.2, 84.5, 54.5, 89.5, 106.8, -0.6, 52.3, -92.9, -53, -92, -106.5, 0.1, -54, 90.4, -45.2, 85.5, -93.5, 0.1)
 
 [node name="Hex" type="StaticBody2D" groups=["Walls"]]
-scale = Vector2(10, 10)
+scale = Vector2(11, 11)
 disable_mode = 1
 script = ExtResource("1_xoh66")
 metadata/_edit_group_ = true
